@@ -99,3 +99,6 @@ var createMap = function(mapID){
 
 	return map;
 }
+var changeMap = function(mapID){
+	var newScene = new Scene();
+}

@@ -1,4 +1,4 @@
-package enchant;
+package util;
 import org.json.simple.JSONArray;
 
 public class JsonApi {

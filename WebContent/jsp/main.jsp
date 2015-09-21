@@ -7,13 +7,13 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <script  src="js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="js/enchant.js"></script>
-    <script src="js/extendMap.enchant.js"></script>
-    <script type="text/javascript" src="js/util.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src=""></script>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script  src="/public/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/public/js/enchant.js"></script>
+    <script src="/public/js/extendMap.enchant.js"></script>
+    <script src="/public/js/util.js"></script>
+    <script src="/public/js/main.js"></script>
+    <script src=""></script>
+    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
     <title>ぷれふり</title>
 </head>
 <body>
