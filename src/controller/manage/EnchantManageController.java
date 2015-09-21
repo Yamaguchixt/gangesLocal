@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Map;
+import util.Util;
 import DAO.MapDAO;
 
 /**
@@ -33,11 +34,18 @@ public class EnchantManageController extends HttpServlet {
 			Map map = new Map();
 			MapDAO mapDao = new MapDAO();
 			//setPointメソッド内でmap.x map.yの代入をしているのでpointはsetで格納する。他のsetメソッドも作る。
-			map.setPoint(Double.parseDouble(request.getParameter("point")));
-			map.drawData = request.getParameter("drawData");
-			map.objectData = request.getParameter("objectData");
-			map.collisionData = request.getParameter("collisionData");
-			map.imagePath = request.getParameter("imagePath");
+			String point = request.getParameter("point");
+			String drawData = request.getParameter("drawData");
+			String objectData = request.getParameter("objectData");
+			String collisionData = request.getParameter("collisionData");
+			String imagePath = request.getParameter("imagePath");
+
+			//とりあえず入力不正でもエラーださない処理、適宜はじく処理が必要。
+			map.setPoint(Util.isValid(point, "double") ? Double.parseDouble(point):0.0);
+			map.drawData = Util.isValid(drawData, "int[][]") ? drawData:"[[0]]";
+			map.objectData = Util.isValid(objectData,"int[][]") ? objectData:"[[0]]";
+			map.collisionData = Util.isValid(collisionData,"int[][]") ? collisionData:"[[0]]";
+			map.imagePath = Util.isValid(imagePath,"String") ? imagePath:"public/images/map1.png";
 
 			mapDao.create(map);
 			nextPath = "/jsp/manage/formMapData.jsp";
