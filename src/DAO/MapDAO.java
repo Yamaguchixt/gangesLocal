@@ -16,19 +16,20 @@ public class MapDAO {
 			Class.forName(Config.driverName);
 			conn = DriverManager.getConnection(Config.connection,Config.user,Config.pass);
 
-			String sql = "select mapID,x,y,drawData,objectData,collisionData,imagePath from map where mapID = ?";
+			String sql = "select mapPoint,x,y,drawData,objectData,collisionData,imagePath from map where mapPoint = ?";
 			PreparedStatement pst = conn.prepareStatement(sql);
 			pst.setDouble(1,point);
 			ResultSet rs = pst.executeQuery();
 
 			if(rs.next()){
-				map.point = rs.getDouble("mapID");
+				map.mapPoint = rs.getDouble("mapPoint");
 				map.x = rs.getInt("x");
 				map.y = rs.getInt("y");
 				map.drawData = rs.getString("drawData"); //文字列の"[[1,2,3],[1,1,1]]"をint配列に変換
 				map.objectData = rs.getString("objectData");
 				map.collisionData = rs.getString("collisionData");
 				map.imagePath = rs.getString("imagePath");
+				System.out.println("at DAO#find"+map.imagePath);
 			}
 		} catch(Exception e){
 			e.printStackTrace();
@@ -52,9 +53,9 @@ public class MapDAO {
 			Class.forName(Config.driverName);
 			conn = DriverManager.getConnection(Config.connection,Config.user,Config.pass);
 
-			String sql = "insert into map (mapID,x,y,drawData,objectData,collisionData,imagePath) values(?,?,?,?,?,?,?)";
+			String sql = "insert into map (mapPoint,x,y,drawData,objectData,collisionData,imagePath) values(?,?,?,?,?,?,?)";
 			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setDouble(1,map.point);
+			pst.setDouble(1,map.mapPoint);
 			pst.setInt(2, map.x);
 			pst.setInt(3, map.y);
 			pst.setString(4,map.drawData);

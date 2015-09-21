@@ -11,7 +11,7 @@ var createPlayer = function(){
 	var DIR_UP    = 2;
 	var DIR_DOWN  = 3;
 	var player = new Sprite(32,32)
-    player.image = game.assets['images/chara0.png'];
+    player.image = game.assets['/ganges/public/images/chara0.png'];
     player.x = 160;
     player.y = 160;
     player.dir   = DIR_DOWN;
@@ -61,14 +61,18 @@ var createPlayer = function(){
 };
 
 var createMap = function(mapID){
+	console.log("createMap is called");
 	var map = new ExMap(16,16);
 	var mapDrawData;
 	var shops;
 	var collisionData;
-	$.getJSON("EnchantApi?mapID="+mapID,function(json){
-		console.log(json);
+	var path = "http://localhost:8080/ganges/EnchantApi?action=getMap&mapPoint="+mapID;
+	console.log("path: "+path);
+	$.getJSON(path,function(json){
+		console.log("got json");
+		console.log("imagePath:"+json.imagePath);
 
-		 map.image = game.assets[json.mapImagePath];
+		 map.image = game.assets[json.imagePath];
 		 mapDrawData = json.mapDrawData;
 		// shops = json.shops;
 		 collisionData = json.mapCollisionData;
@@ -82,7 +86,7 @@ var createMap = function(mapID){
 		var shopObjectImage = 26;
 		for(var i in shops){
 			var shop = new Sprite(32,32);
-			shop.image = game.assets["images/chara2.png"];
+			shop.image = game.assets["/ganges/public/images/chara2.png"];
 			shop.frame = shopObjectImage;
 			shop.x = shops[i].x * 16;
 			shop.y = shops[i].y * 16;

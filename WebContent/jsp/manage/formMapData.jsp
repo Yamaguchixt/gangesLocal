@@ -22,7 +22,7 @@
 	<input type="hidden" value="mapCreate" name="action">
 	<div class="form-group">
 		<label for="mapPoint" class="control-label">MAP座標</label>
-		<input  class="form-control" type="text" name="point" id="point" placeholder="例: 2.3">
+		<input  class="form-control" type="text" name="mapPoint" id="point" placeholder="例: 2.3">
 	</div>
 	<div class="form-group">
 		<label for="category" class="control-label">imagePath</label>

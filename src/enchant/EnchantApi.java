@@ -1,5 +1,6 @@
 package enchant;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -12,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 
 import util.JsonApi;
-
+import util.Util;
+import DAO.MapDAO;
 
 @WebServlet("/EnchantApi")
 public class EnchantApi extends HttpServlet {
@@ -22,19 +24,27 @@ public class EnchantApi extends HttpServlet {
         super();
     }
 
+	@SuppressWarnings("unchecked")
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json; charset=utf-8");
-	    PrintWriter out = response.getWriter();
-	    int mapID = Integer.parseInt((request.getParameter("mapID") == null ? "1": request.getParameter("mapID")));
-	    //MapObject mapObject = DBinterface.getMap(mapID);
-	    TmpDB db = new TmpDB();
-	    JSONObject obj = new JSONObject();
-	    obj.put("mapDrawData",JsonApi.int2DArrayToJSONArray(db.map.get("mapDrawData").get(mapID)));
-	    obj.put("mapObjectData",JsonApi.int2DArrayToJSONArray(db.map.get("mapObjectData").get(mapID)));
-	    obj.put("mapCollisionData",JsonApi.int2DArrayToJSONArray(db.map.get("mapCollisionData").get(mapID)));
-	    obj.put("mapImagePath",db.mapImagePath);
+		PrintWriter out = response.getWriter();
+		String action = request.getParameter("action");
 
-	    obj.writeJSONString(out);
+		if(action.equals("getMap")){
+		    double mapPoint = Double.parseDouble((request.getParameter("mapPoint") == null ? "1.1": request.getParameter("mapPoint")));
+		    MapDAO dao = new MapDAO();
+		    model.Map map = dao.find(mapPoint);
+		    if(map != null){
+		    	JSONObject obj = new JSONObject();
+		    	obj.put("mapDrawData",JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.drawData)));
+		    	obj.put("mapObjectData", JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.objectData)));
+		    	obj.put("mapCollisionData",JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.collisionData)));
+		    	obj.put("imagePath",map.imagePath);
+		    	obj.writeJSONString(out);
+		    }else{
+		    	new JSONObject().writeJSONString(out);
+		    }
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

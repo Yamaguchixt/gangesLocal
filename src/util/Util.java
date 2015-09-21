@@ -1,5 +1,8 @@
 package util;
 
+
+
+
 public class Util {
 	public static int[][] mapStringToInt2DArray(String array){
 		/*
@@ -8,7 +11,8 @@ public class Util {
 		* 一次配列を,で区切ってint変換していき、配列に格納する
 		* JavaのMapをJSON型に変換するときに使う
 		*/
-		array = array.replaceAll("(\\[\\[|\\]\\])","");
+		array = array.replaceAll("\\s","");
+		array = array.replaceAll("(\\[\\[|\\]\\])",""); //　[[と]]と改行コードを取り除く
 		String[] arrays = array.split("\\],");
 		int[][] result = new int[arrays.length][];
 		for(int i=0;i<arrays.length;i++){
@@ -47,11 +51,43 @@ public class Util {
 		if(type.matches("(String|s|S)")){}
 		if(type.matches("(int|Int|i|I|Integer)")){try{	Integer.parseInt(arg);}catch(NumberFormatException e){e.printStackTrace();return false;}}
 		if(type.matches("(Double|double|d|D)")){try{	Double.parseDouble(arg);}catch(NumberFormatException e){e.printStackTrace();return false;}}
+		/*
 		if(type.matches("int\\[\\]\\[\\]")){ //""[[ではじまって　]] でおわってるかどうかを調べる。できればもうしこし細かく確認したい
 			if(!(arg.charAt(0)=='[' && arg.charAt(1)=='[' && arg.charAt(arg.length()-1)==']' && arg.charAt(arg.length()-2)==']')){
 				return false;
 			}
-		}
+		}*/
 		return true;
+	}
+	//型のメソッド一覧を出力する type = "java.lang.String"
+	public static void getMethods(String type){
+		try {
+			Class<?> clazz = Class.forName(type);
+
+			String className = clazz.getName();
+			//Method[] methods = clazz.getMethods();
+			java.lang.reflect.Method[] methods = clazz.getDeclaredMethods();
+
+			StringBuilder builder = new StringBuilder();
+			for (java.lang.reflect.Method method : methods) {
+				String methodName = method.getName();
+				builder.append(className).append("#");
+				builder.append(methodName).append("(");
+
+				Class<?>[] parameterTypes = method.getParameterTypes();
+				for (int i = 0; i < parameterTypes.length; i++) {
+					Class<?> parameterType = parameterTypes[i];
+					builder.append(parameterType.getName());
+					if (i + 1 < parameterTypes.length) {
+						builder.append(", ");
+					}
+				}
+				builder.append(")");
+				builder.append(System.getProperty("line.separator"));
+			}
+			System.out.println(builder.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

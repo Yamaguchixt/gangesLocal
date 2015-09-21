@@ -3,9 +3,9 @@ $(function(){
   game = new Game(800,640);
   stage = new Group();
   game.fps = 16;
-  game.preload("images/chara0.png","images/map1.png","images/chara2.png");
+  game.preload("/ganges/public/images/chara0.png","/ganges/public/images/map1.png","/ganges/public/images/chara2.png");
   game.onload = function(){
-	  map = createMap(1);
+	  map = createMap(1.1);
 	  chara = createPlayer();
 	  stage.addChild(map);
 	  stage.addChild(chara);

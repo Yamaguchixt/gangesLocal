@@ -7,20 +7,20 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <script  src="/public/js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="/public/js/enchant.js"></script>
-    <script src="/public/js/extendMap.enchant.js"></script>
-    <script src="/public/js/util.js"></script>
-    <script src="/public/js/main.js"></script>
+    <script  src="<%=request.getContextPath() %>/public/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath() %>/public/js/enchant/lib/enchant.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/enchant/lib/extendMap.enchant.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/enchant/util.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/enchant/main.js"></script>
     <script src=""></script>
-    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/public/css/main.css">
     <title>ぷれふり</title>
 </head>
 <body>
 	<div id="game_window">
     	<div id="enchant-stage"></div>
     </div>
-    <h1>更新22</h1>
+    <h1>更新23</h1>
     <p><%= request.getContextPath() %>
 
 
