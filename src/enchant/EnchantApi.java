@@ -36,6 +36,7 @@ public class EnchantApi extends HttpServlet {
 		    model.Map map = dao.find(mapPoint);
 		    if(map != null){
 		    	JSONObject obj = new JSONObject();
+		    	obj.put("mapPoint", new Double(map.mapPoint));
 		    	obj.put("mapDrawData",JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.drawData)));
 		    	obj.put("mapObjectData", JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.objectData)));
 		    	obj.put("mapCollisionData",JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.collisionData)));

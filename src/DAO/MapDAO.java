@@ -29,7 +29,6 @@ public class MapDAO {
 				map.objectData = rs.getString("objectData");
 				map.collisionData = rs.getString("collisionData");
 				map.imagePath = rs.getString("imagePath");
-				System.out.println("at DAO#find"+map.imagePath);
 			}
 		} catch(Exception e){
 			e.printStackTrace();

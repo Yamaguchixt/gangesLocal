@@ -1,15 +1,31 @@
 window.onload = function(){
 $(function(){
-  game = new Game(800,640);
-  stage = new Group();
+  game = new Game(WIDTH,HEIGHT);
+  var stage = new Group();
   game.fps = 16;
   game.preload("/ganges/public/images/chara0.png","/ganges/public/images/map1.png","/ganges/public/images/chara2.png");
   game.onload = function(){
-	  map = createMap(1.1);
-	  chara = createPlayer();
-	  stage.addChild(map);
-	  stage.addChild(chara);
+	  global.map = createMap(1.1);
+	  global.chara = createPlayer(global);
+	  stage.addChild(global.map);
+	  stage.addChild(global.chara);
 	  game.rootScene.addChild(stage);
+	  game.rootScene.on('touchstart',function(e){//画面タッチしたらそこに瞬時に移動させる
+		global.chara.x = e.x;
+		global.chara.y = e.y;
+	  });
+
+	  global.label = new Label();
+	  global.label.onenterframe = function(){
+		  global.label.text = "x:"+global.chara.x+ ", y: "+global.chara.y + "   /MAP座標: "+global.map.mapPoint;
+	  }
+	  game.rootScene.onenterframe = function(){
+		if(global.chara.x > WIDTH || global.chara.x < 0 || global.chara.y > HEIGHT || global.chara.y < 0){//画面端に触れたら
+			changeMap(global.map.mapPoint);
+		}
+	  };
+
+	  game.rootScene.addChild(global.label);
   };//game.onload
   game.start();
 
