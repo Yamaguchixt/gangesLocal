@@ -103,6 +103,7 @@ var createMap = function(mapPoint){
 	return map;
 };
 var changeMap = function(mapPoint){
+	console.log("changeMap invoked !");
 	 newScene = new Scene();
 	 //newChara = createPlayer();
 	if(global.chara.x >= WIDTH){
@@ -110,20 +111,27 @@ var changeMap = function(mapPoint){
 		global.chara.y = global.chara.y;
 		global.map = createMap(mapPoint+1.0);//上書きする前にmap管理オブジェクトに渡す
 	}
+	if(global.chara.x <= -10){
+		global.chara.x = WIDTH - 30;
+		global.map = createMap(mapPoint-1.0);
+	}
 	//mapをさきに加える。 chara mapとすると上書きされてしまう
 
 
-	  newScene.on('touchstart',function(e){//画面タッチしたらそこに瞬時に移動させる
-			global.chara.x = e.x;
-			global.chara.y = e.y;
+	global.mapChangeManager.addEventListener('enterframe', function(){
+		if(global.chara.x > WIDTH || global.chara.x < -10 || global.chara.y > HEIGHT || global.chara.y < 0){//画面端に触れたら
+			changeMap(global.map.mapPoint);
+			this.removeEventListener('enterframe',arguments.callee);
+		}
+	  });
+	newScene.on('touchstart',function(e){//画面タッチしたらそこに瞬時に移動させる
+		global.chara.x = e.x;
+		global.chara.y = e.y;
 	 });
-	 newScene.on('enterframe',function(){
-			if(global.chara.x > WIDTH || global.chara.x < 0 || global.chara.y > HEIGHT || global.chara.y < 0){//画面端に触れたら
-				changeMap(global.map.mapPoint);
-			}
-	});
+
 	newScene.addChild(global.map);
 	newScene.addChild(global.label);
 	newScene.addChild(global.chara);
+	newScene.addChild(global.mapChangeManager);
 	game.pushScene(newScene);
 };
