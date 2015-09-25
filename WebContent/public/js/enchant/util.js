@@ -1,14 +1,11 @@
-enchant();
 var game;
 var WIDTH = 784;
 var HEIGHT = 640;
-var newScene;
 var newChara;
 
-var global = {};
 
 
-var createPlayer = function(global){
+var createPlayer = function(){
 	var DIR_LEFT  = 0;
 	var DIR_RIGHT = 1;
 	var DIR_UP    = 2;
@@ -31,25 +28,25 @@ var createPlayer = function(global){
         if (game.input.up) {
             player.dir = DIR_UP;
             player.y -= 4;
-            if (global.map.hitTest(player.x + 16, player.y + 32)) player.y += 4;
+            if (global.currentMap.hitTest(player.x + 16, player.y + 32)) player.y += 4;
         }
         //下へ移動
         else if (game.input.down) {
             player.dir = DIR_DOWN;
             player.y += 4;
-            if (global.map.hitTest(player.x + 16, player.y + 32)) player.y -= 4;
+            if (global.currentMap.hitTest(player.x + 16, player.y + 32)) player.y -= 4;
         }
         //左へ移動
         else if (game.input.left) {
             player.dir = DIR_LEFT;
             player.x -= 4;
-            if (global.map.hitTest(player.x + 16, player.y + 32)) player.x += 4;
+            if (global.currentMap.hitTest(player.x + 16, player.y + 32)) player.x += 4;
         }
         //右へ移動
         else if (game.input.right) {
             player.dir = DIR_RIGHT;
             player.x += 4;
-            if (global.map.hitTest(player.x + 16, player.y + 32)) player.x -= 4;
+            if (global.currentMap.hitTest(player.x + 16, player.y + 32)) player.x -= 4;
         }
 
         //フレームの指定
@@ -60,78 +57,78 @@ var createPlayer = function(global){
 
     });
     return player;
-
 };
 
-var createMap = function(mapPoint){
+var createMap = function(x,y){
 	var map = new ExMap(16,16);
-	var mapDrawData;
-	var shops;
-	var collisionData;
-	var path = "http://localhost:8080/ganges/EnchantApi?action=getMap&mapPoint="+mapPoint;
+	var path = "http://localhost:8080/ganges/EnchantApi?action=getMap&x="+x+"&y="+y;
 	$.getJSON(path,function(json){
-		 map.mapPoint = json.mapPoint;
-		 map.image = game.assets[json.imagePath];
-		 mapDrawData = json.mapDrawData;
-		// shops = json.shops;
-		 collisionData = json.mapCollisionData;
-		// createShops();
-		map.loadData(mapDrawData,json.mapObjectData);
-		map.collisionData = collisionData;
+		map.x = json.x;
+		map.y = json.y;
+		map.image = game.assets[json.imagePath];
+		map.loadData(json.mapDrawData,json.mapObjectData);
+		map.collisionData = json.mapCollisionData;
+		global.setShopList(x,y,JSON.parse(JSON.stringify(json.shopList)));
+		createShops(x,y,map);
 	});
-	//map event設定
-
-	var createShops = function(){
-		var shopObjectImage = 26;
-		for(var i in shops){
-			var shop = new Sprite(32,32);
-			shop.image = game.assets["/ganges/public/images/chara2.png"];
-			shop.frame = shopObjectImage;
-			shop.x = shops[i].x * 16;
-			shop.y = shops[i].y * 16;
-
-			shop.onenterframe = function(){
-				if(this.within(chara,5)){
-					console.log("chara:"+chara.x+","+chara.y+"  /  shop"+this.x+","+this.y);
-					stage.removeChild(this);
-				}
-			};
-			stage.addChild(shop);
-		}
-	}
-
 	return map;
 };
-var changeMap = function(mapPoint){
-	console.log("changeMap invoked !");
-	 newScene = new Scene();
-	 //newChara = createPlayer();
+
+var createShops = function(x,y,map){//createMapから呼ぶこと
+	global.scene[x+":"+y].scene.addChild(map);
+	global.scene[x+":"+y].scene.addChild(global.chara);
+	global.scene[x+":"+y].scene.addChild(global.label);
+	global.scene[x+":"+y].scene.addChild(global.mapChangeManager);
+	var j = 0;
+	for(var i in global.getShopList(x,y)){
+		var shop = new Sprite(32,32);
+		//shop.image = game.assets[global.json.shopList[i].imagePath]; ひとまず画像path固定
+		shop.image = game.assets['/ganges/public/images/chara2.png'];
+		shop.frame = j;
+		shop.x = global.getShopList(x,y)[i].x;
+		shop.y = global.getShopList(x,y)[i].y;
+		shop.Id = global.getShopList(x,y)[i].shopId;
+		shop.on('enterframe',function(){
+			if(global.chara.intersect(this)){
+				log("intersect:     "+ this.Id);//なぜかここをshopにするとひとつのshopにしかイベントが設定されない。上書きされてしまう。
+				this.removeEventListener('enterframe',arguments.callee);
+			}
+		});
+		global.scene[x+":"+y].scene.addChild(shop);
+	}
+};
+
+var changeMap = function(x,y){
 	if(global.chara.x >= WIDTH){
 		global.chara.x = 0;
-		global.chara.y = global.chara.y;
-		global.map = createMap(mapPoint+1.0);//上書きする前にmap管理オブジェクトに渡す
+		global.setScene((x+1),y,new Scene());
+		global.currentMap = createMap((global.currentMap.x+1),global.currentMap.y);
+		global.currentMap.x = x+1;
+		global.currentMap.y = y;
 	}
 	if(global.chara.x <= -10){
 		global.chara.x = WIDTH - 30;
-		global.map = createMap(mapPoint-1.0);
+		global.setScene((x-1),y,new Scene());
+		global.currentMap = createMap((global.currentMap.x-1),global.currentMap.y);
+		global.currentMap.x = x-1;
+		global.currentMap.y = y;
 	}
 	//mapをさきに加える。 chara mapとすると上書きされてしまう
 
-
 	global.mapChangeManager.addEventListener('enterframe', function(){
 		if(global.chara.x > WIDTH || global.chara.x < -10 || global.chara.y > HEIGHT || global.chara.y < 0){//画面端に触れたら
-			changeMap(global.map.mapPoint);
+			changeMap(global.currentMap.x,global.currentMap.y);
 			this.removeEventListener('enterframe',arguments.callee);
 		}
-	  });
-	newScene.on('touchstart',function(e){//画面タッチしたらそこに瞬時に移動させる
+	 });
+	global.scene[global.currentMap.x+":"+global.currentMap.y].scene.on('touchstart',function(e){//画面タッチしたらそこに瞬時に移動させる
 		global.chara.x = e.x;
 		global.chara.y = e.y;
 	 });
 
-	newScene.addChild(global.map);
-	newScene.addChild(global.label);
-	newScene.addChild(global.chara);
-	newScene.addChild(global.mapChangeManager);
-	game.pushScene(newScene);
+	//global.scene[x+":"+y].scene.addChild(global.currentMap);
+	//global.scene[x+":"+y].scene.addChild(global.label);
+	//global.scene[x+":"+y].scene.addChild(global.chara);
+	//global.scene[x+":"+y].scene.addChild(global.mapChangeManager);
+	game.pushScene(global.scene[global.currentMap.x+":"+global.currentMap.y].scene);
 };

@@ -35,13 +35,16 @@ public class EnchantManageController extends HttpServlet {
 			MapDAO mapDao = new MapDAO();
 			//setPointメソッド内でmap.x map.yの代入をしているのでpointはsetで格納する。他のsetメソッドも作る。
 			String mapPoint = request.getParameter("mapPoint");
+			int x = Integer.parseInt(mapPoint.split(".")[0]);
+			int y = Integer.parseInt(mapPoint.split(".")[1]);
 			String drawData = request.getParameter("drawData");
 			String objectData = request.getParameter("objectData");
 			String collisionData = request.getParameter("collisionData");
 			String imagePath = request.getParameter("imagePath");
 
 			//とりあえず入力不正でもエラーださない処理、適宜はじく処理が必要。
-			map.setPoint(Util.isValid(mapPoint, "double") ? Double.parseDouble(mapPoint) :99.0);
+			map.x = x;
+			map.y = y;
 			map.drawData = Util.isValid(drawData, "int[][]") ? drawData:"[[0]]";
 			map.objectData = Util.isValid(objectData,"int[][]") ? objectData:"[[0]]";
 			map.collisionData = Util.isValid(collisionData,"int[][]") ? collisionData:"[[0]]";

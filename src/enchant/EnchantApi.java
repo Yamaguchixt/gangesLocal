@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import util.JsonApi;
-import util.Util;
 import DAO.MapDAO;
 
 @WebServlet("/EnchantApi")
@@ -31,16 +29,12 @@ public class EnchantApi extends HttpServlet {
 		String action = request.getParameter("action");
 
 		if(action.equals("getMap")){
-		    double mapPoint = Double.parseDouble((request.getParameter("mapPoint") == null ? "1.1": request.getParameter("mapPoint")));
+			int x = Integer.parseInt(request.getParameter("x"));
+			int y = Integer.parseInt(request.getParameter("y"));
 		    MapDAO dao = new MapDAO();
-		    model.Map map = dao.find(mapPoint);
+		    model.Map map = dao.find(x,y);
 		    if(map != null){
-		    	JSONObject obj = new JSONObject();
-		    	obj.put("mapPoint", new Double(map.mapPoint));
-		    	obj.put("mapDrawData",JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.drawData)));
-		    	obj.put("mapObjectData", JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.objectData)));
-		    	obj.put("mapCollisionData",JsonApi.int2DArrayToJSONArray(Util.mapStringToInt2DArray(map.collisionData)));
-		    	obj.put("imagePath",map.imagePath);
+		    	JSONObject obj = map.toJson();
 		    	obj.writeJSONString(out);
 		    }else{
 		    	new JSONObject().writeJSONString(out);

@@ -7,9 +7,11 @@
     <meta http-equiv="x-ua-compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <script  src="<%=request.getContextPath() %>/public/js/jquery-1.11.3.min.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/underscore.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath() %>/public/js/enchant/lib/enchant.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/lib/extendMap.enchant.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/enchant/global.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/util.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/main.js"></script>
     <script src=""></script>

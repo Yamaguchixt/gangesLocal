@@ -1,0 +1,2 @@
+create table shop(mapPoint double,x int(11),y int(11),shopId text,imagePath
+text);
