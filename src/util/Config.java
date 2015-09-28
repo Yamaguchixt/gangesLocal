@@ -11,4 +11,7 @@ public class Config {
 	public static final String user="root";
 	public static final String pass ="";
 
+	public static final String serverURL = "http://localhost:8080/ganges/";
+	//public static final String serverURL = "http://hew2015.com/tomcat/ganges/";
+
 }

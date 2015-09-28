@@ -22,7 +22,7 @@
 	<div id="game_window">
     	<div id="enchant-stage"></div>
     </div>
-    <h1>更新25</h1>
+    <h1>更新26</h1>
     <p><%= request.getContextPath() %>
 
 
