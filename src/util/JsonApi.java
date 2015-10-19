@@ -1,5 +1,8 @@
 package util;
+import java.util.Iterator;
 import java.util.List;
+
+import model.Jsonable;
 
 import org.json.simple.JSONArray;
 
@@ -21,7 +24,12 @@ public class JsonApi {
 		return jsonArray;
 	}
 
-	public static JSONArray ListToJSON(List list){
-
+	public static <T extends Jsonable> JSONArray ListToJSON(List<T> list){
+		JSONArray array = new JSONArray();
+		Iterator<T> ite = list.iterator();//Itemハードコードなんとかしたい
+		while(ite.hasNext()){
+			array.add(ite.next().toJson());//T型はJsonableなのでtoJsonよべる
+		}
+		return array;
 	}
 }

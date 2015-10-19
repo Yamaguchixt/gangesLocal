@@ -1,7 +1,7 @@
 package model;
 
 import org.json.simple.JSONObject;
-public class Item {
+public class Item implements Jsonable{
 	public String shopId;
 	public String itemId;
 	public String name;

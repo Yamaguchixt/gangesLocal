@@ -2,7 +2,7 @@ package model;
 
 import org.json.simple.JSONObject;
 
-public class Shop {
+public class Shop implements Jsonable {
 	public double mapPoint;
 	public int x;
 	public int y;

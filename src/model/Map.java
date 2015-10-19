@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 import util.JsonApi;
 import util.Util;
 
-public class Map {
+public class Map implements Jsonable {
 	public int x;
 	public int y;
 	public String drawData;
