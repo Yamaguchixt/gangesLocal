@@ -1,4 +1,6 @@
 package util;
+import java.util.List;
+
 import org.json.simple.JSONArray;
 
 public class JsonApi {
@@ -17,5 +19,9 @@ public class JsonApi {
 			jsonArray.add(intArrayToJSONArray(array[i]));
 		}
 		return jsonArray;
+	}
+
+	public static JSONArray ListToJSON(List list){
+
 	}
 }

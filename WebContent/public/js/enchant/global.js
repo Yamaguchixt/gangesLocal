@@ -3,7 +3,7 @@ var global = {
 		isSee:true,
 		scene: {},
 		currentMap:{},
-
+		serverPath:'http://localhost:8080',
 		chara: {},
 		label: new Label(),
 		mapChangeManager: new Sprite(1,1),

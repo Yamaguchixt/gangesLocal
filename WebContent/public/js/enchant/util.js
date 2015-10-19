@@ -79,15 +79,16 @@ var createShops = function(x,y,map){//createMapから呼ぶこと
 	global.scene[x+":"+y].scene.addChild(global.chara);
 	global.scene[x+":"+y].scene.addChild(global.label);
 	global.scene[x+":"+y].scene.addChild(global.mapChangeManager);
-	var j = 0;
-	for(var i in global.getShopList(x,y)){
+	var j = 0;//shopのframeに使用
+	var array = global.getShopList(x,y);
+	for(var i = 0;i < array.length;i++){
 		var shop = new Sprite(32,32);
 		//shop.image = game.assets[global.json.shopList[i].imagePath]; ひとまず画像path固定
 		shop.image = game.assets['/ganges/public/images/chara2.png'];
 		shop.frame = j;
-		shop.x = global.getShopList(x,y)[i].x;
-		shop.y = global.getShopList(x,y)[i].y;
-		shop.Id = global.getShopList(x,y)[i].shopId;
+		shop.x = array[i].x;
+		shop.y = array[i].y;
+		shop.Id = array[i].shopId;
 		shop.on('enterframe',function(){
 			if(global.chara.intersect(this)){
 				log("intersect:     "+ this.Id);//なぜかここをshopにするとひとつのshopにしかイベントが設定されない。上書きされてしまう。

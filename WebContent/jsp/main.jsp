@@ -12,6 +12,7 @@
     <script type="text/javascript" src="<%=request.getContextPath() %>/public/js/enchant/lib/enchant.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/lib/extendMap.enchant.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/global.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/enchant/purchase.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/util.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/main.js"></script>
     <script src=""></script>

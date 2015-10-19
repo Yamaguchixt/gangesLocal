@@ -3,6 +3,7 @@ package enchant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Item;
+
 import org.json.simple.JSONObject;
 
+import DAO.ItemsDAO;
 import DAO.MapDAO;
 
 @WebServlet("/EnchantApi")
@@ -39,6 +43,13 @@ public class EnchantApi extends HttpServlet {
 		    }else{
 		    	new JSONObject().writeJSONString(out);
 		    }
+		}
+
+		if(action.equalsIgnoreCase("getItems")){
+			String shopId = request.getParameter("shopId");//null checkしてない
+			ItemsDAO dao = new ItemsDAO();
+			ArrayList<Item> list = dao.find(shopId);
+			//ここで一発でJSONにしたい
 		}
 	}
 
