@@ -1,5 +1,7 @@
 package util;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 
 
@@ -89,5 +91,45 @@ public class Util {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void printFields(Object object) throws IllegalAccessException {
+		for (Field field : object.getClass().getDeclaredFields()) {
+			boolean accessible = field.isAccessible();
+			try {
+				field.setAccessible(true);
+				int modifier = field.getModifiers();
+				Class<?> type = field.getType();
+				String name = field.getName();
+				Object value = field.get(object);
+				System.out.println(
+						modifierString(modifier) + getTypeName(type) + " " + name + " = " + value);
+			} finally {
+				field.setAccessible(accessible);
+			}
+		}
+	}
+
+	private static String getTypeName(Class type) {
+		if (!type.isArray())
+			return type.getName();
+		return getTypeName(type.getComponentType()) + "[]";
+	}
+
+	private static String modifierString(int v) {
+		StringBuilder sb = new StringBuilder();
+		if (Modifier.isPrivate(v))  sb.append("private ");
+		if (Modifier.isPublic(v))  sb.append("public ");
+		if (Modifier.isProtected(v))  sb.append("protected ");
+		if (Modifier.isStatic(v))  sb.append("static ");
+		if (Modifier.isAbstract(v))  sb.append("abstract ");
+		if (Modifier.isFinal(v))  sb.append("final ");
+		if (Modifier.isInterface(v))  sb.append("interface ");
+		if (Modifier.isNative(v))  sb.append("native ");
+		if (Modifier.isStrict(v))  sb.append("strict ");
+		if (Modifier.isSynchronized(v))  sb.append("synchoronized ");
+		if (Modifier.isTransient(v))  sb.append("transient ");
+		if (Modifier.isVolatile(v))  sb.append("volatile ");
+		return sb.toString();
 	}
 }
