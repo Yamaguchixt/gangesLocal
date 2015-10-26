@@ -1,5 +1,7 @@
 /build/
 
 .settings
+.classpath
+.project
 Config.java
 .war
