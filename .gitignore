@@ -1,5 +1,6 @@
 /build/
 
+Config.java
 .settings
 .classpath
 .project
