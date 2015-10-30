@@ -18,6 +18,5 @@ pass=
 
 serverURL=http://localhost:8080/ganges/
 
-※userとpassはmysqlにログインんするときに使うもの
-
+※userとpassはmysqlにログインんするときに使うもの。実際は空行はさまない
 
