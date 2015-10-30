@@ -1,8 +1,7 @@
 /build/
 
-Config.java
+ganges.properties
 .settings
 .classpath
 .project
-Config.java
 .war
