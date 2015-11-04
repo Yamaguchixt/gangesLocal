@@ -61,7 +61,7 @@ var createPlayer = function(){
 
 var createMap = function(x,y){
 	var map = new ExMap(16,16);
-	var path = "http://localhost:8080/ganges/EnchantApi?action=getMap&x="+x+"&y="+y;
+	var path = global.server.uri + '/ganges/EnchantApi?action=getMap&x=' + x + '&y=' +y;
 	$.getJSON(path,function(json){
 		map.x = json.x;
 		map.y = json.y;
