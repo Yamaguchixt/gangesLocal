@@ -27,7 +27,7 @@ public class User_RegistrationDAO {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/gangestest?characterEncoding=utf8","root","hazime");
 
 
-			String sql =  "insert into user(user_id,user_name,user_pass,user_postnumber,user_prefectures,user_district,user_address_building,user_tell)values(?,?,?,?,?,?,?,?)";
+			String sql =  "insert into user(user_id,account_name,pass,postnumber,prefectures,district,address_building,tell)values(?,?,?,?,?,?,?,?)";
 			PreparedStatement pStmt =conn.prepareStatement(sql);
 
 			pStmt.setString(1, user.getUser_id());

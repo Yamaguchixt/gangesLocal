@@ -1,21 +1,17 @@
 package Login_test;
 
-public class Login_Logic {
+public class login_logic {
 
-	public boolean execute(Login login){
+  public boolean execute(user user){
 
+    login_DAO dao = new login_DAO();
 
-
-
-
-
+    user_account account = dao.select2(user);
 
 
 
+    return account != null;
 
 
-
-		return true;
-	}
-
+}
 }
