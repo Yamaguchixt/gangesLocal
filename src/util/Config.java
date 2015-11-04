@@ -9,16 +9,25 @@ import java.util.Properties;
 public class Config {
 
 	//イニシャライザ。クラスロード時に一度だけよばれる。
+	//存在しないキーを指定するとnullが返る。
 	static {
-		try{
-			Properties properties = new Properties();
-			InputStream is = Config.class.getResourceAsStream("ganges.properties");
-			properties.load(is);
-			driverName = properties.getProperty("driverName");
-			connection = properties.getProperty("connection");
-			user       = properties.getProperty("user");
-			pass       = properties.getProperty("pass");
-			serverURL  = properties.getProperty("serverURL");
+			try{
+				Properties properties = new Properties();
+				InputStream is = Config.class.getResourceAsStream("ganges.properties");
+				properties.load(is);
+				isRemote   = properties.getProperty("isRemote").equals("true") ? true : false;
+
+				driverName = properties.getProperty("driverName");
+				connection = properties.getProperty("connection");
+				user       = properties.getProperty("user");
+				pass       = properties.getProperty("pass");
+				serverURL  = properties.getProperty("serverURL");
+
+				remoteDriverName = properties.getProperty("remoteDriver");
+				remoteConnection = properties.getProperty("remoteConnection");
+				remoteUser = properties.getProperty("remoteUser");
+				remotePass = properties.getProperty("remotePass");
+				remoteServerURL = properties.getProperty("remoteServerURL");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -26,22 +35,20 @@ public class Config {
 
 		}
 	}
-	public static  String driverName;
-			//"com.mysql.jdbc.Driver";
-	//public static String driverName = "org.mariadb.jdbc.Driver";
-
+	//driverNameだけstaticイニシャライザで初期化されずにnull 参照してしまうので事前定義　用検証(山口)
+	public static  String driverName="com.mysql.jdbc.Driver";
 	public static  String connection;
-	//="jdbc:mysql://localhost/ganges?characterEncoding=utf8";
-	//public static final String connection = "jdbc:mariadb://localhost:3306/ganges";
-
 	//DBで使うusernameとpass
 	public static  String user;
-	//="root";
 	public static  String pass;
-	//="";
-
 	public static  String serverURL;
-	//= "http://localhost:8080/ganges/";
-	//public static final String serverURL = "http://hew2015.com/tomcat/ganges/";
+
+	//remote用
+	public static boolean isRemote;
+	public static String  remoteDriverName;
+	public static String  remoteConnection;
+	public static String  remoteUser;
+	public static String  remotePass;
+	public static String  remoteServerURL;
 
 }

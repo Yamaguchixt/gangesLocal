@@ -18,6 +18,7 @@ public class MapDAO {
 
 		try{
 			Class.forName(Config.driverName);
+			System.out.println("in MapDAO");
 		} catch( ClassNotFoundException e){
 			System.out.println("driverの読み込み失敗");
 			e.printStackTrace();
