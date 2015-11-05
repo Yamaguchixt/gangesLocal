@@ -1,7 +1,6 @@
 package DAO;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,24 +11,17 @@ import model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import util.Config;
+public class ItemsDAO extends AbstractDAO {
 
-public class ItemsDAO {
 	public ArrayList<Item> find(String shopId){
-		Logger logger = LoggerFactory.getLogger(ItemsDAO.class);
 
-		try{
-			Class.forName(Config.driverName);
-		} catch( ClassNotFoundException e){
-			System.out.println("driverの読み込み失敗");
-			e.printStackTrace();
-		}
+	  Logger logger = LoggerFactory.getLogger(ItemsDAO.class);
 
 		ArrayList<Item> list = new ArrayList<Item>();
 
-		try(Connection conn = DriverManager.getConnection(Config.connection,Config.user,Config.pass)){
-			String sql = "select * from item where shopId like ?";
-			try(PreparedStatement pst = conn.prepareStatement(sql)){
+		String sql = "select * from item where shopId like ?";
+		try(Connection conn = this.getConnection();
+		    PreparedStatement pst = conn.prepareStatement(sql)){
 				pst.setString(1,shopId);
 				ResultSet rs = pst.executeQuery();
 				while(rs.next()){
@@ -45,10 +37,6 @@ public class ItemsDAO {
 				System.out.println("item情報のselectで失敗");e.printStackTrace();
 			}
 
-		} catch(Exception e){
-			e.printStackTrace();
-			//1.7のautoclosableでfinally書かなくていいらしい。
-		}
 		return list;
 	}
 }
