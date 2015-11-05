@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,12 +16,13 @@ public class Map implements Jsonable {
 	public String collisionData;
 	public String imagePath;
 	//shop管理用
-	public List<Shop> shopList;
+	public ArrayList<Shop> shopList;
 
 	public Map(){
 		shopList = new ArrayList<Shop>();
 	};
 	public String toString(){
+	  shopList.forEach( (Shop shop) -> System.out.println(shop.toString() ));
 		return "x:"+this.x+" y:"+this.y+"\ndrawData:"+this.drawData;
 	}
 
