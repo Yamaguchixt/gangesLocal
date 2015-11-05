@@ -1,54 +1,80 @@
 package util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 
+/*シングルトンパターン。コンストラクタをプライベートにして唯一のインタンスのみを返す。
+ *使い方は
+ * Config config = Config.getInstance();
+ * Class.forName( config.getDriverName() );
+ */
 
 public class Config {
 
-	//イニシャライザ。クラスロード時に一度だけよばれる。
-	//存在しないキーを指定するとnullが返る。
-	static {
-			try{
-				Properties properties = new Properties();
-				InputStream is = Config.class.getResourceAsStream("ganges.properties");
-				properties.load(is);
-				isRemote   = properties.getProperty("isRemote").equals("true") ? true : false;
+  private static final String propertiesFile = "ganges.properties";
 
-				driverName = properties.getProperty("driverName");
-				connection = properties.getProperty("connection");
-				user       = properties.getProperty("user");
-				pass       = properties.getProperty("pass");
-				serverURL  = properties.getProperty("serverURL");
+  private static Config config = new Config();
 
-				remoteDriverName = properties.getProperty("remoteDriver");
-				remoteConnection = properties.getProperty("remoteConnection");
-				remoteUser = properties.getProperty("remoteUser");
-				remotePass = properties.getProperty("remotePass");
-				remoteServerURL = properties.getProperty("remoteServerURL");
+  private Config() {
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally{
+    try {
+      Properties prop = new Properties();
+      prop.load(Config.class.getResourceAsStream(propertiesFile));
 
-		}
-	}
-	//driverNameだけstaticイニシャライザで初期化されずにnull 参照してしまうので事前定義　用検証(山口)
-	public static  String driverName="com.mysql.jdbc.Driver";
-	public static  String connection;
-	//DBで使うusernameとpass
-	public static  String user;
-	public static  String pass;
-	public static  String serverURL;
+      isRemote = prop.getProperty("isRemote") == null ||
+                 prop.getProperty("isRemote").equals("false")
+                 ? false : true;
+      if ( isRemote ) {
+        driverName = prop.getProperty("remoteDriverName");
+        connection = prop.getProperty("remoteConnection");
+        user       = prop.getProperty("remoteUser");
+        pass       = prop.getProperty("remotePass");
+        serverURL  = prop.getProperty("remoteServerURL");
+      }
+      else {
+        driverName = prop.getProperty("driverName");
+        connection = prop.getProperty("connection");
+        user       = prop.getProperty("user");
+        pass       = prop.getProperty("pass");
+        serverURL  = prop.getProperty("serverURL");
+      }
+    } catch(IOException e ){
 
-	//remote用
-	public static boolean isRemote;
-	public static String  remoteDriverName;
-	public static String  remoteConnection;
-	public static String  remoteUser;
-	public static String  remotePass;
-	public static String  remoteServerURL;
+    }finally{
+
+    }
+  }
+  public static Config getInstance() {
+    return config;
+  }
+
+  private boolean isRemote;
+  private String driverName;
+  private String connection;
+  private String user;
+  private String pass;
+  private String serverURL;
+
+
+  public boolean isRemote() {
+    return this.isRemote;
+  }
+  public String getDriverName() {
+    return this.driverName;
+  }
+  //jdbc:mysql://localhost/ganges?characterEncoding=utf8のようにかえってくる
+  public String getConnectionName() {
+    return this.connection;
+  }
+  public String getUserName() {
+    return this.user;
+  }
+  public String getPass() {
+    return this.pass;
+  }
+  public String getServerURL() {
+    return this.serverURL;
+  }
 
 }
