@@ -6,6 +6,11 @@ import java.lang.reflect.Modifier;
 
 
 public class Util {
+
+  //各modelがIDを生成するときに使う
+  public static String getUUID() {
+    return java.util.UUID.randomUUID().toString().replaceAll("-", "");//abcdf-fafdd-fadfd-のハイフンを取り除く。
+  }
 	public static int[][] mapStringToInt2DArray(String array){
 		/*
 		* 引数: "[[1,2,345,-1],[5,5,-123],[1,7,6]]" こんな感じの文字列
@@ -14,7 +19,7 @@ public class Util {
 		* JavaのMapをJSON型に変換するときに使う
 		*/
 		array = array.replaceAll("\\s","");
-		array = array.replaceAll("(\\[\\[|\\]\\])",""); //　[[と]]と改行コードを取り除く
+		array = array.replaceAll("(\\[\\[|\\]\\])",""); //　[[と]]と改行コードを取り除く エスケープ文字が\\でわかりずらい表現したいのは,( [[ | ]] )
 		String[] arrays = array.split("\\],");
 		int[][] result = new int[arrays.length][];
 		for(int i=0;i<arrays.length;i++){
@@ -53,12 +58,7 @@ public class Util {
 		if(type.matches("(String|s|S)")){}
 		if(type.matches("(int|Int|i|I|Integer)")){try{	Integer.parseInt(arg);}catch(NumberFormatException e){e.printStackTrace();return false;}}
 		if(type.matches("(Double|double|d|D)")){try{	Double.parseDouble(arg);}catch(NumberFormatException e){e.printStackTrace();return false;}}
-		/*
-		if(type.matches("int\\[\\]\\[\\]")){ //""[[ではじまって　]] でおわってるかどうかを調べる。できればもうしこし細かく確認したい
-			if(!(arg.charAt(0)=='[' && arg.charAt(1)=='[' && arg.charAt(arg.length()-1)==']' && arg.charAt(arg.length()-2)==']')){
-				return false;
-			}
-		}*/
+
 		return true;
 	}
 	//型のメソッド一覧を出力する type = "java.lang.String"

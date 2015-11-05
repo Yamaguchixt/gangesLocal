@@ -35,7 +35,7 @@ public class paypalfunctions  {
     private String  gv_BNCode;
 
     private String  gv_Version;
-	private String  gv_nvpHeader;
+    private String  gv_nvpHeader;
     private String  gv_ProxyServer;
     private String gv_ProxyServerPort;
     private int gv_Proxy;
