@@ -21,22 +21,30 @@
 <form method="post" action="<%= request.getContextPath() %>/EnchantManageController">
 	<input type="hidden" value="mapCreate" name="action">
 	<div class="form-group">
-		<label for="mapPoint" class="control-label">MAP座標</label>
-		<input  class="form-control" type="text" name="mapPoint" id="point" placeholder="例: 2.3">
+		<label for="mapPoint" class="control-label">配置_x</label>
+		<input  class="form-control" type="text" name="point_x" id="point" placeholder="例: 2">
+	</div>
+		<div class="form-group">
+		<label for="mapPoint" class="control-label">配置_y</label>
+		<input  class="form-control" type="text" name="point_y" id="point" placeholder="例: 3">
 	</div>
 	<div class="form-group">
-		<label for="category" class="control-label">imagePath</label>
-		<input class="form-control" type="text" name="imagePath" id="imagePath" placeholder="例(絶対pathで):　/pubic/images/map1.png">
+		<label for="category" class="control-label">image_path</label>
+		<input class="form-control" type="text" name="image_path" id="imagePath" placeholder="例(絶対pathで):　/pubic/images/map1.png">
 	</div>
 	<div class="form-group">
-		<label for="drawData" class="control-label">drawData</label>
-		<textarea class="form-control textarea" name="drawData" id="drawData" placeholder="[[1,1,3],[1,2,3]]"></textarea>
+		<label for="drawData" class="control-label">drawing_data</label>
+		<textarea class="form-control textarea" name="drawing_data" id="drawData" placeholder="[[1,1,3],[1,2,3]]"></textarea>
 	<div class="form-group">
-		<label for="objectData" class="control-label">objectData</label>
-		<textarea class="form-control textarea" name="objectData" id="objectData"></textarea>
+		<label for="objectData" class="control-label">object_data</label>
+		<textarea class="form-control textarea" name="object_data" id="objectData"></textarea>
 	</div><div class="form-group">
-		<label for="collisionData" class="control-label">collisionData</label>
-		<textarea class="form-control textarea" name="collisionData" id="collisionData"></textarea>
+		<label for="collisionData" class="control-label">collision_data</label>
+		<textarea class="form-control textarea" name="collision_data" id="collisionData"></textarea>
+	</div>
+		</div><div class="form-group">
+		<label for="collisionData" class="control-label">shop_puttable_data</label>
+		<textarea class="form-control textarea" name="shop_puttable_data" id="collisionData"></textarea>
 	</div></div>
 		<input type="submit" value="送信" class="btn btn-primary">
 </form>
