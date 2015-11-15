@@ -1,0 +1,8 @@
+/build/
+
+ganges.properties
+.settings
+.classpath
+.project
+.war
+Test.java
