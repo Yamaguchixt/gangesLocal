@@ -4,11 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.Map;
+import model.Shop;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import model.Map;
-import model.Shop;
 import util.Util;
 public class MapDAO extends AbstractDAO{
 
@@ -52,6 +53,7 @@ public class MapDAO extends AbstractDAO{
 			e.printStackTrace();
 			//1.7のautoclosableでfinally書かなくていいらしい。
 		}
+		if ( map.drawing_data == null ){System.out.println("in MapDAO no map found !");}
 		return map;
 	}
 

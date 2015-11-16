@@ -16,14 +16,13 @@ public class Map implements Jsonable {
 	public String collision_data;
 	public String image_path;
 	public String shop_puttable_data;
-	//shop管理用
-	public ArrayList<Shop> shopList;
+	public ArrayList<Shop> shopList; //shop管理用
 
 	public Map(){
 		shopList = new ArrayList<Shop>();
 	};
 	public String toString(){
-	  shopList.forEach( (Shop shop) -> System.out.println(shop.toString() ));
+	  shopList.forEach( ( shop) -> System.out.println(shop.toString() ));
 		return "point_x:"+this.point_x+" point_y:"+this.point_y+"drawing_data:"+this.drawing_data;
 	}
 

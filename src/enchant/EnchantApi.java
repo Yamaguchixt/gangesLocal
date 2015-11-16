@@ -4,6 +4,7 @@ package enchant;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +31,7 @@ public class EnchantApi extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json; charset=utf-8");
 		PrintWriter out = response.getWriter();
-		String action = request.getParameter("action");
+		String action = Optional.ofNullable(request.getParameter("action")).orElse("none");
 
 		if(action.equals("getMap")){
 			int x = Integer.parseInt(request.getParameter("x"));
@@ -51,6 +52,8 @@ public class EnchantApi extends HttpServlet {
 			ArrayList<Item> list = dao.find(shopId);
 			//ここで一発でJSONにしたい
 		}
+
+		if(action.equals("none")){ System.out.println("EnchantApi parameter action is none");}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

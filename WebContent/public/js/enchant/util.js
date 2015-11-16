@@ -1,6 +1,4 @@
 var game;
-var WIDTH = 784;
-var HEIGHT = 640;
 var newChara;
 
 
@@ -61,13 +59,13 @@ var createPlayer = function(){
 
 var createMap = function(x,y){
 	var map = new ExMap(16,16);
-	var path = global.server.uri + '/ganges/EnchantApi?action=getMap&x=' + x + '&y=' +y;
+	var path = global.server.url+'EnchantApi?action=getMap&x='+x+'&y='+y;
 	$.getJSON(path,function(json){
-		map.x = json.x;
-		map.y = json.y;
-		map.image = game.assets[json.imagePath];
-		map.loadData(json.mapDrawData,json.mapObjectData);
-		map.collisionData = json.mapCollisionData;
+		map.x = json.point_x;
+		map.y = json.point_y;
+		map.image = game.assets['/ganges' +json.image_path];// /public/images/map1.png が返ってくる
+		map.loadData(json.drawing_data,json.object_data);
+		map.collisionData = json.collision_data;
 		global.setShopList(x,y,JSON.parse(JSON.stringify(json.shopList)));
 		createShops(x,y,map);
 	});
@@ -100,6 +98,8 @@ var createShops = function(x,y,map){//createMapから呼ぶこと
 };
 
 var changeMap = function(x,y){
+	var WIDTH  = config.game_width;
+	var HEIGHT = config.game_height;
 	if(global.chara.x >= WIDTH){
 		global.chara.x = 0;
 		global.setScene((x+1),y,new Scene());
@@ -127,9 +127,6 @@ var changeMap = function(x,y){
 		global.chara.y = e.y;
 	 });
 
-	//global.scene[x+":"+y].scene.addChild(global.currentMap);
-	//global.scene[x+":"+y].scene.addChild(global.label);
-	//global.scene[x+":"+y].scene.addChild(global.chara);
-	//global.scene[x+":"+y].scene.addChild(global.mapChangeManager);
+
 	game.pushScene(global.scene[global.currentMap.x+":"+global.currentMap.y].scene);
 };
