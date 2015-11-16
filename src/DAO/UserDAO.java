@@ -11,11 +11,9 @@ public class UserDAO extends AbstractDAO {
 
 	public boolean create(User user){
 
-<<<<<<< HEAD
+
 		String sql =  "insert into user(user_id,account_name,pass,postnumber,prefectures,district,address_building,tell,is_alive)values(?,?,?,?,?,?,?,?,?)";
-=======
-		String sql =  "insert into user(user_id,account_name,pass,postnumber,prefectures,district,address_building,tell)values(?,?,?,?,?,?,?,?)";
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
+
 		System.out.println(user.toString() );
 		try ( Connection conn = this.getConnection();
 		      PreparedStatement pst =conn.prepareStatement(sql)){
@@ -28,11 +26,9 @@ public class UserDAO extends AbstractDAO {
 			pst.setString(6, user.getDistrict());
 			pst.setString(7, user.getAddressBuilding());
 			pst.setString(8, user.getTell());
-<<<<<<< HEAD
-			pst.setInt(9, user.getIs_alive());
-=======
 
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
+			pst.setInt(9, user.getIs_alive());
+
 			int result = pst.executeUpdate();
 
 			if(result != 1){

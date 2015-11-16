@@ -10,10 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import DAO.MapDAO;
 import model.Map;
-<<<<<<< HEAD
 import util.Router;
-=======
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
 import util.Util;
 
 /**
@@ -40,18 +37,16 @@ public class EnchantManageController extends HttpServlet {
 
 			String strpoint_x = request.getParameter("point_x");
 			String strpoint_y = request.getParameter("point_y");
-<<<<<<< HEAD
-=======
-			int point_x = Integer.parseInt(strpoint_x);
-			int point_y = Integer.parseInt(strpoint_y);
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
+
+
+
 			String drawing_data = request.getParameter("drawing_data");
 			String object_data = request.getParameter("object_data");
 			String collision_data = request.getParameter("collision_data");
 			String image_path = request.getParameter("image_path");
 			String shop_puttable_data = request.getParameter("shop_puttable_data");
 
-<<<<<<< HEAD
+
 			boolean isError = false;
 
 	    if(strpoint_x == null || strpoint_x.isEmpty()){
@@ -114,9 +109,9 @@ public class EnchantManageController extends HttpServlet {
 	    try{
 	      int point_x = Integer.parseInt(strpoint_x);
 	      int point_y = Integer.parseInt(strpoint_y);
-=======
+
 			//とりあえず入力不正でもエラーださない処理、適宜はじく処理が必要。
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
+
 			map.point_x = point_x;
 			map.point_y = point_y;
 			map.drawing_data = Util.isValid(drawing_data, "int[][]") ? drawing_data:"[[0]]";
@@ -126,14 +121,12 @@ public class EnchantManageController extends HttpServlet {
 	    map.shop_puttable_data = Util.isValid(shop_puttable_data,"int[][]") ? shop_puttable_data:"[[0]]";
 			mapDao.create(map);
 			nextPath = "/jsp/manage/formMapData.jsp";
-<<<<<<< HEAD
+
 	    }catch(NumberFormatException e){
 	      e.printStackTrace();
 	       request.getRequestDispatcher( Router.getInstance().getURL( "formMapData.jsp" )).forward(request, response);
 	    }
 
-=======
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
 		}
 
 		request.getRequestDispatcher(nextPath).forward(request,response);
