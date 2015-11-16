@@ -12,6 +12,12 @@
 ユーザネーム<input type="text" name="user_name"><br>
 パスワード<input type="text" name="user_pass"><br>
 <input type="submit" name="送信"value="ログイン"><br>
+<<<<<<< HEAD
+${ nameErr}<br>
+${ passErr}<br>
+${ loginErr}<br>
+=======
+>>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
 
 </form>
 </body>
