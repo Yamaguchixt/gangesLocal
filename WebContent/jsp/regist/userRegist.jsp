@@ -21,5 +21,19 @@
 電話番号<input type="text" name="user_tell"><br>
 <input type="submit" name="送信"value="登録"><br>
 </form>
+<<<<<<< HEAD
+
+${nameErr }<br>
+${ passErr}<br>
+${yubinbangoErr }<br>
+${yubinbangoErr2 }<br>
+${yubinbangoErr3 }<br>
+${todouhukenErr }<br>
+${sikutyousonErr }<br>
+${ bantitatemonoErr}<br>
+${ tellErr}<br>
+${ tellErr2}<br>
+=======
+>>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
 </body>
 </html>
