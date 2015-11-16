@@ -13,28 +13,67 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="container">
 <p>URI:<%= request.getRequestURI() %></p>
 <p>URL:<%= request.getRequestURL() %></p>
 Shop登録
 <form method="post" action="<%= request.getContextPath() %>/ShopManageController">
-ユーザid<input type="text" name="user_id"><br>
-ショップ名<input type="text" name="name"><br>
-作成日時<input type="text" name="date"><br>
-外観画像パス<input type="text" name="exterior_image_path"><br>
-マップid<input type="text" name="map_id"><br>
-配置ポイントx<input type="text" name="point_x"><br>
-配置ポイントy<input type="text" name="point_y"><br>
-インテリア画像パス<input type="text" name="interior_image_path"><br>
-インテリアドローデータ<input type="text" name="interior_draw_data"><br>
-インテリアオブジェクトデータ<input type="text" name="interior_object_data"><br>
-インテリアコリジョンデータ<input type="text" name="interior_collision_data"><br>
+<div class="form-group">
+<label for="mapPoint" class="control-label">ユーザid</label><input type="text" name="user_id"><br>
+</div>
+<div class="form-group">
+<label for="mapPoint" class="control-label">ショップ名</label><input type="text" name="name"><br>
+</div>
+<div class="form-group">
+<label for="mapPoint" class="control-label">作成日時</label><input type="text" name="date"><br>
+</div><div class="form-group">
+<label for="category" class="control-label">外観画像パス</label><input type="text" name="exterior_image_path"><br>
+</div><div class="form-group">
+<label for="mapPoint" class="control-label">マップid</label><input type="text" name="map_id"><br>
+</div><div class="form-group">
+<label for="mapPoint" class="control-label">配置ポイントx</label><input type="text" name="point_x"><br>
+</div><div class="form-group">
+<label for="mapPoint" class="control-label">配置ポイントy</label><input type="text" name="point_y"><br>
+</div><div class="form-group">
+<label for="mapPoint" class="control-label">インテリア画像パス</label><input type="text" name="interior_image_path"><br>
+</div><div class="form-group">
+<label for="drawData" class="control-label">インテリアドローデータ</label><br>
+<textarea class="form-control textarea" name="interior_draw_data" id="collisionData"></textarea>
+	</div>
+<div class="form-group">
+<label for="drawData" class="control-label">インテリアオブジェクトデータ</label><br>
+<textarea class="form-control textarea" name="interior_object_data" id="collisionData"></textarea>
+</div>
+<div class="form-group">
+<label for="drawData" class="control-label">インテリアコリジョンデータ</label><br>
+<textarea class="form-control textarea" name="interior_collision_data" id="collisionData"></textarea>
+</div>
+</div>
 <input type="submit" value="登録">
 
 
 
 
 </form>
+<script>
+$(".textarea").height(30);//init
+$(".textarea").css("lineHeight","20px");//init
 
+$(".textarea").on("input",function(evt){
+    if(evt.target.scrollHeight > evt.target.offsetHeight){
+        $(evt.target).height(evt.target.scrollHeight);
+    }else{
+        var lineHeight = Number($(evt.target).css("lineHeight").split("px")[0]);
+        while (true){
+            $(evt.target).height($(evt.target).height() - lineHeight);
+            if(evt.target.scrollHeight > evt.target.offsetHeight){
+                $(evt.target).height(evt.target.scrollHeight);
+                break;
+            }
+        }
+    }
+});
+</script>
 
 </body>
 </html>

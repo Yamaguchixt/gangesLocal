@@ -196,7 +196,11 @@ public class Shop implements Jsonable {
   }
 
 
-
+  public double mapPoint;
+  public int x;
+  public int y;
+  public String shopId;
+  public String imagePath;
   public JSONObject toJson(){
 		JSONObject obj = new JSONObject();
 		//obj.put("mapPoint",new Double(this.mapPoint)); 処理側で今のところつかわない

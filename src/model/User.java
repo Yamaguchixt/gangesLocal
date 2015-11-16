@@ -9,7 +9,7 @@ public class User {
 		private String district;
 		private String addressBuilding;
 		private String tell;
-<<<<<<< HEAD
+
 		private int is_alive =0;
 
 
@@ -23,11 +23,9 @@ public class User {
     }
 
     public String toString() {
-=======
 
 
-		public String toString() {
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
+
 		  return   "  name : " + this.name
 		        +  "  pass : " + this.pass
 		        +  "  postNumber : " + this.postNumber
@@ -82,12 +80,9 @@ public class User {
     public void setTell(String tell) {
       this.tell = tell;
     }
-<<<<<<< HEAD
+
     public User(String user_id,String user_name,String user_pass,String yubinbango,String todouhuken,String sikutyouson,String bantitatemono,String user_tell,int is_alive){
-=======
-    public User(String user_id,String user_name,String user_pass,String yubinbango,String todouhuken,String sikutyouson,String bantitatemono,String user_tell){
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
-			this.userId = user_id;
+
 			this.name = user_name;
 			this.pass = user_pass;
 			this.postNumber = yubinbango;
@@ -95,10 +90,9 @@ public class User {
 			this.district = sikutyouson;
 			this.addressBuilding = bantitatemono;
 			this.tell = user_tell;
-<<<<<<< HEAD
+
 			this.is_alive = is_alive;
-=======
->>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
+
 		}
 
 
