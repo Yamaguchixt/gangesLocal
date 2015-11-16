@@ -8,10 +8,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+<<<<<<< HEAD
 import DAO.UserDAO;
 import model.User;
 import util.Router;
 import util.Util;
+=======
+import model.User;
+import util.Router;
+import util.Util;
+import DAO.UserDAO;
+>>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
 
 
 
@@ -41,6 +48,7 @@ public class UserRegist extends HttpServlet {
 	  String bantitatemono = request.getParameter("bantitatemono");
 	  String user_tell = request.getParameter("user_tell");
 	  String uuid =  Util.getUUID();
+<<<<<<< HEAD
 	  int is_alive =1;
 
 	  boolean isError = false;
@@ -119,6 +127,10 @@ public class UserRegist extends HttpServlet {
     }
 
 	  User user = new User(uuid,user_name, user_pass,yubinbango, todouhuken, sikutyouson,bantitatemono,user_tell,is_alive);
+=======
+
+	  User user = new User(uuid,user_name, user_pass,yubinbango, todouhuken, sikutyouson,bantitatemono,user_tell);
+>>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
 	  System.out.println(" in UserRegist : " + user.toString());
 
 	  UserDAO dao = new UserDAO();

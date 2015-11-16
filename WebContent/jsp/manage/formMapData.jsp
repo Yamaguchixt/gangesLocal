@@ -46,6 +46,7 @@
 		<label for="collisionData" class="control-label">shop_puttable_data</label>
 		<textarea class="form-control textarea" name="shop_puttable_data" id="collisionData"></textarea>
 	</div></div>
+<<<<<<< HEAD
 		<input type="submit" value="登録" class="btn btn-primary">
 </form>
 ${xErr }<br>
@@ -55,6 +56,10 @@ ${ drawingErr}<br>
 ${ objectErr}<br>
 ${ collisionErr}<br>
 ${ shopErr}<br>
+=======
+		<input type="submit" value="送信" class="btn btn-primary">
+</form>
+>>>>>>> 9f88f29b548c78837c027f7f6c97357f8e8cea0b
 </div>
 <script>
 $(".textarea").height(30);//init
