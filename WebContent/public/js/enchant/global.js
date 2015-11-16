@@ -4,7 +4,7 @@ var global = {
 		scene: {},
 		currentMap:{},
 		server:{
-			uri  : location.origin, //http://localhost:8080
+			url  : config.serverURL
 
 		},
 

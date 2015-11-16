@@ -1,8 +1,8 @@
 window.onload = function(){
 $(function(){
-  game = new Game(WIDTH,HEIGHT);
-  var initialX = 1; //初期座標
-  var initialY = 1;
+  game = new Game(config.game_width,config.game_height);
+  var initialX = config.initial_x; //初期座標
+  var initialY = config.initial_y;
   game.fps = 16;
   game.preload("/ganges/public/images/chara0.png","/ganges/public/images/map1.png","/ganges/public/images/chara2.png");
   game.onload = function(){
@@ -22,16 +22,15 @@ $(function(){
 		  global.label.text = "x:"+global.chara.x+ ", y: "+global.chara.y + "   /MAP座標[x: "+global.currentMap.x+" y:"+global.currentMap.y+"]";
 	  }
 	  global.mapChangeManager.addEventListener('enterframe', function(){
+	  	var WIDTH = config.game_width;
+	  	var HEIGHT = config.game_height;
 		if(global.chara.x > WIDTH || global.chara.x < 0 || global.chara.y > HEIGHT || global.chara.y < 0){//画面端に触れたら
 			changeMap(initialX,initialY);
 			this.removeEventListener('enterframe',arguments.callee);
 		}
 	  });
-	 // global.scene[initialX+":"+initialY].scene.addChild(map);
-	  //global.scene[initialX+":"+initialY].scene.addChild(global.chara);
-	  //global.scene[initialX+":"+initialY].scene.addChild(global.mapChangeManager);
-	  //global.scene[initialX+":"+initialY].scene.addChild(global.label);
-  };//game.onload
+
+  };
   game.start();
 
 });//$(function()

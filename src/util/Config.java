@@ -39,6 +39,11 @@ public class Config {
         pass       = prop.getProperty("pass");
         serverURL  = prop.getProperty("serverURL");
       }
+
+
+      this.doCheck = ( prop.getProperty("doCheck")  == null || prop.getProperty("doCheck").equals("false")) ? false : true;
+
+
     } catch(IOException e ){
 
     }finally{
@@ -49,12 +54,13 @@ public class Config {
     return config;
   }
 
-  private boolean isRemote;
-  private String driverName;
-  private String connection;
-  private String user;
+  private boolean isRemote;      //サーバが本番環境かどうかのフラグ
+  private String driverName;     //jdbcのドライバー名
+  private String connection;     //データベースの名前
+  private String user;           //
   private String pass;
-  private String serverURL;
+  private String serverURL;      //サーバの絶対パス
+  private boolean doCheck;        //入力された情報をチェックするかのフラグ。
 
 
   public boolean isRemote() {
@@ -75,6 +81,9 @@ public class Config {
   }
   public String getServerURL() {
     return this.serverURL;
+  }
+  public boolean doCheck(){
+    return this.doCheck;
   }
 
 }
