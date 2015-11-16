@@ -3,7 +3,6 @@ package model;
 import org.json.simple.JSONObject;
 
 public class Shop implements Jsonable {
-
 	public String shop_id;
 	public String user_id;
 	public String name;
@@ -19,7 +18,7 @@ public class Shop implements Jsonable {
 	public String interior_collision_data;
 
 
-
+	public Shop(){}
 	public Shop(String shop_id, String user_id, String name, String made_date, String exterior_image_path,
       String map_id, int point_x, int point_y, int is_alive, String interior_image_path,
       String interior_draw_data, String interior_object_data, String interior_collision_data) {
@@ -209,10 +208,8 @@ public class Shop implements Jsonable {
 		obj.put("point_y", new Integer(this.point_y));
 		obj.put("shopId", this.shop_id);
 		obj.put("imagePath", this.exterior_image_path);
-
-
-
-
 		return obj;
-	}
+  }
+
+
 }
