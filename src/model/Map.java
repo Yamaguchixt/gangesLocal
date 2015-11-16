@@ -9,8 +9,10 @@ import util.JsonApi;
 import util.Util;
 
 public class Map implements Jsonable {
+  public String map_id;
 	public int point_x;
 	public int point_y;
+	public String name;
 	public String drawing_data;
 	public String object_data;
 	public String collision_data;
@@ -22,7 +24,7 @@ public class Map implements Jsonable {
 		shopList = new ArrayList<Shop>();
 	};
 	public String toString(){
-	  shopList.forEach( ( shop) -> System.out.println(shop.toString() ));
+	  shopList.forEach( ( shop) -> System.out.println(shop));
 		return "point_x:"+this.point_x+" point_y:"+this.point_y+"drawing_data:"+this.drawing_data;
 	}
 

@@ -19,7 +19,7 @@ public class MapDAO extends AbstractDAO{
 
 		Map map = new Map();
 
-		String sql = "select point_x,point_y,drawing_data,object_data,collision_data,image_path from map where point_x = ? AND point_y = ?";
+		String sql = "select point_x,point_y,drawing_data,object_data,collision_data,image_path,map_id from map where point_x = ? AND point_y = ?";
 
 		try( Connection conn = this.getConnection();
 			   PreparedStatement pst = conn.prepareStatement( sql )) {
@@ -27,6 +27,7 @@ public class MapDAO extends AbstractDAO{
 		  pst.setInt(2,point_y);
 		  ResultSet rs = pst.executeQuery();
 		  if(rs.next()){
+		    map.map_id  = rs.getString("map_id");
 		    map.point_x = rs.getInt("point_x");
 		    map.point_y = rs.getInt("point_y");
 		    map.drawing_data = rs.getString("drawing_data");
@@ -35,18 +36,26 @@ public class MapDAO extends AbstractDAO{
 		    map.image_path = rs.getString("image_path");
 		  }
 
-		  String sql2 = "select point_x,point_y,shop_id,interior_image_path from shop where point_x = ? AND point_y = ?";
+		  String sql2 = "select is_alive,point_x,point_y,shop_id,user_id,interior_image_path,interior_draw_data,interior_object_data,interior_collision_data,exterior_image_path,name from shop where map_id like ?";
 		  PreparedStatement pst2 = conn.prepareStatement(sql2);
-		  pst2.setInt(1,point_x);
-		  pst2.setInt(2,point_y);
+		  pst2.setString(1,map.map_id);
 		  ResultSet rs2 = pst2.executeQuery();
 		  while(rs2.next()){
-		    Shop shop = new Shop();
-		    shop.point_x = rs2.getInt("x");
-		    shop.point_y = rs2.getInt("y");
-		    shop.shop_id = rs2.getString("shopId");
-		    shop.interior_image_path = rs2.getString("imagePath");
-		    map.add(shop);
+		    if ( rs2.getInt("is_alive") == 1){//店が生きてたら
+		      Shop shop = new Shop();
+		      shop.point_x                  = rs2.getInt("point_x");
+		      shop.point_y                  = rs2.getInt("point_y");
+		      shop.shop_id                  = rs2.getString("shop_id");
+		      shop.user_id                  = rs2.getString("user_id");
+		      shop.interior_image_path      = rs2.getString("interior_image_path");
+		      shop.interior_draw_data       = rs2.getString("interior_draw_data");
+		      shop.interior_object_data     = rs2.getString("interior_object_data");
+		      shop.interior_collision_data  = rs2.getString("interior_collision_data");
+		      shop.exterior_image_path      = rs2.getString("exterior_image_path");
+		      shop.name                     = rs2.getString("name");
+		      System.out.println("in MapDAO shop :" + shop);
+		      map.add(shop);
+		    }
 		  }
 
 		} catch(Exception e){
