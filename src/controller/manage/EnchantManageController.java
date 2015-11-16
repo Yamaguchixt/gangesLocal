@@ -39,6 +39,9 @@ public class EnchantManageController extends HttpServlet {
 			String strpoint_y = request.getParameter("point_y");
 			int point_x = Integer.parseInt(strpoint_x);
 			int point_y = Integer.parseInt(strpoint_y);
+
+
+
 			String drawing_data = request.getParameter("drawing_data");
 			String object_data = request.getParameter("object_data");
 			String collision_data = request.getParameter("collision_data");
@@ -83,6 +86,13 @@ public class EnchantManageController extends HttpServlet {
 	      request.getRequestDispatcher( Router.getInstance().getURL( "formMapData.jsp" )).forward(request, response);
 	    }
 
+			//とりあえず入力不正でもエラーださない処理、適宜はじく処理が必要。
+	    try{
+	       point_x = Integer.parseInt(strpoint_x);
+	       point_y = Integer.parseInt(strpoint_y);
+
+			//とりあえず入力不正でもエラーださない処理、適宜はじく処理が必要。
+
 			map.point_x = point_x;
 			map.point_y = point_y;
 			/*
@@ -100,6 +110,11 @@ public class EnchantManageController extends HttpServlet {
 
 			mapDao.create(map);
 			nextPath = "/jsp/manage/formMapData.jsp";
+
+	    }catch(NumberFormatException e){
+	      e.printStackTrace();
+	       request.getRequestDispatcher( Router.getInstance().getURL( "formMapData.jsp" )).forward(request, response);
+	    }
 
 		}
 

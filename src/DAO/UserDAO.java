@@ -11,7 +11,9 @@ public class UserDAO extends AbstractDAO {
 
 	public boolean create(User user){
 
+
 		String sql =  "insert into user(user_id,account_name,pass,postnumber,prefectures,district,address_building,tell,is_alive)values(?,?,?,?,?,?,?,?,?)";
+
 		System.out.println(user.toString() );
 		try ( Connection conn = this.getConnection();
 		      PreparedStatement pst =conn.prepareStatement(sql)){

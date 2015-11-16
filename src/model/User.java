@@ -22,7 +22,8 @@ public class User {
     }
 
 
-		public String toString() {
+
+    public String toString() {
 		  return   "  name : " + this.name
 		        +  "  pass : " + this.pass
 		        +  "  postNumber : " + this.postNumber
@@ -87,6 +88,7 @@ public class User {
 			this.addressBuilding = bantitatemono;
 			this.tell = user_tell;
 			this.is_alive = is_alive;
+
 		}
 	}
 

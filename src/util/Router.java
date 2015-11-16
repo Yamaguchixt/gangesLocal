@@ -20,6 +20,10 @@ public class Router {
     this.formMapData    =  "jsp/manage/formMapData.jsp";
     this.formShopData   =  "jsp/manage/formShopData.jsp";
 
+    this.formMapData    =  "jsp/manage/formMapData.jsp";
+    this.formShopData   =  "jsp/manage/formShopData.jsp";
+
+
     this.fault     = this.serverURL + " #### "; //遷移失敗を表すURL
   }
 
@@ -27,6 +31,7 @@ public class Router {
   private String main;
   private String userLogin;
   private String userRegist;
+
   private String formMapData;
   private String formShopData;
 
@@ -37,6 +42,7 @@ public class Router {
     if ( jsp.equals( "main.jsp" ))          { return this.main;       }
     if ( jsp.equals( "userLogin.jsp" ))     { return this.userLogin;  }
     if ( jsp.equals( "userRegist.jsp" ))    { return this.userRegist; }
+
     if ( jsp.equals("formMapData.jsp"))     { return this.formMapData;}
     if ( jsp.equals("formShopData.jsp"))    { return this.formShopData;}
 

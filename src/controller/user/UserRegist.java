@@ -15,6 +15,7 @@ import DAO.UserDAO;
 
 
 
+
 /**
  * Servlet implementation class User_Registration
  */
@@ -119,6 +120,8 @@ public class UserRegist extends HttpServlet {
     }
 
 	  User user = new User(uuid,user_name, user_pass,yubinbango, todouhuken, sikutyouson,bantitatemono,user_tell,is_alive);
+
+
 
 	  System.out.println(" in UserRegist : " + user.toString());
 

@@ -12,6 +12,7 @@ import util.Router;
 import DAO.UserDAO;
 
 
+
 @WebServlet("/UserLogin")
 public class UserLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +23,6 @@ public class UserLogin extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     request.getRequestDispatcher("userLogin.jsp").forward(request, response);
-    request.getRequestDispatcher("login.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,6 +52,7 @@ public class UserLogin extends HttpServlet {
     }
 
 
+
 	  boolean isUser;
 	  String nextPath;
 	  Router r = Router.getInstance();
@@ -65,6 +66,8 @@ public class UserLogin extends HttpServlet {
 	                }
 
 
+	  System.out.println(nextPath);
+	  System.out.println(isUser);
 
 	  request.getRequestDispatcher( nextPath ).forward(request, response );
 
