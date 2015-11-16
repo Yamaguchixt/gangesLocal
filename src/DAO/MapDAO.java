@@ -42,10 +42,10 @@ public class MapDAO extends AbstractDAO{
 		  ResultSet rs2 = pst2.executeQuery();
 		  while(rs2.next()){
 		    Shop shop = new Shop();
-		    shop.x = rs2.getInt("x");
-		    shop.y = rs2.getInt("y");
-		    shop.shopId = rs2.getString("shopId");
-		    shop.imagePath = rs2.getString("imagePath");
+		    shop.point_x = rs2.getInt("x");
+		    shop.point_y = rs2.getInt("y");
+		    shop.shop_id = rs2.getString("shopId");
+		    shop.interior_image_path = rs2.getString("imagePath");
 		    map.add(shop);
 		  }
 
