@@ -6,7 +6,7 @@ import util.Config;
  *Factoryはremoteとlocal判断してFakeか本物のSenderを返す。
  */
 public class MailSenderFactory {
-  public static MailSender getInstance(){
+  public static AbstractMailSender getInstance(){
     Config config = Config.getInstance();
     if ( config.isRemote() ){
       return new RealMailSender();

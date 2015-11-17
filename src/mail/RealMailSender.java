@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class RealMailSender extends AbstractMailSender implements MailSender {
+public class RealMailSender extends AbstractMailSender {
   public RealMailSender(){}
 
   private final String from     = "PlayFreeMarket@hew2015.com";
@@ -61,6 +61,5 @@ public class RealMailSender extends AbstractMailSender implements MailSender {
       System.out.println("RealMailSender#sendの例外catch");
       return;
     }
-
   }
 }

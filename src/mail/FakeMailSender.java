@@ -1,6 +1,6 @@
 package mail;
 
-public class FakeMailSender extends AbstractMailSender implements MailSender{
+public class FakeMailSender extends AbstractMailSender {
   public FakeMailSender(){};
 
   public void setDestination( String destination ){ this.destination = destination; }
