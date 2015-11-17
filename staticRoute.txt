@@ -1,0 +1,10 @@
+ゲーム画面              jsp/main.jsp
+ログイン画面　　        jsp/login/userLogin.jsp
+
+マップ登録画面　        jsp/manage/formMapData.jsp
+ショップ登録画面        jsp/manage/formShopData.jsp
+
+ユーザ登録画面          jsp/regist/userRegist.jsp
+
+
+

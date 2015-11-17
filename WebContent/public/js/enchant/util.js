@@ -77,11 +77,10 @@ var createShops = function(x,y,map){//createMapから呼ぶこと
 	global.scene[x+":"+y].scene.addChild(global.chara);
 	global.scene[x+":"+y].scene.addChild(global.label);
 	global.scene[x+":"+y].scene.addChild(global.mapChangeManager);
-	var shop_exterior_frame = 369;//shopのframeに使用
+	var shop_exterior_frame = 22;//shopのframeに使用 本来はサーバから取得。
 	var array = global.getShopList(x,y);
 	for(var i = 0;i < array.length;i++){
 		var shop = new Sprite(32,32);
-		//shop.image = game.assets[global.json.shopList[i].imagePath]; ひとまず画像path固定
 		shop.image = game.assets['/ganges'+array[i].exterior_image_path];
 		shop.frame = shop_exterior_frame;
 		shop.x = array[i].point_x;

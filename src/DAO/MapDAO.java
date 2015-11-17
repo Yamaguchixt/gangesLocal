@@ -53,7 +53,6 @@ public class MapDAO extends AbstractDAO{
 		      shop.interior_collision_data  = rs2.getString("interior_collision_data");
 		      shop.exterior_image_path      = rs2.getString("exterior_image_path");
 		      shop.name                     = rs2.getString("name");
-		      System.out.println("in MapDAO shop :" + shop);
 		      map.add(shop);
 		    }
 		  }
