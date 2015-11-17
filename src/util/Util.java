@@ -2,6 +2,8 @@ package util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 
@@ -132,4 +134,17 @@ public class Util {
 		if (Modifier.isVolatile(v))  sb.append("volatile ");
 		return sb.toString();
 	}
+
+
+	public static String getCurrentDateString(){
+
+	  Date date = new Date();
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
+    return sdf.format(date);
+	}
+
+
+
 }

@@ -1,546 +1,210 @@
--- MySQL dump 10.15  Distrib 10.0.17-MariaDB, for Win32 (AMD64)
---
--- Host: localhost    Database: ganges
--- ------------------------------------------------------
--- Server version	5.6.27-log
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `blacklist`
---
-
-DROP TABLE IF EXISTS `blacklist`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `blacklist` (
-  `user_id` varchar(255) NOT NULL,
-  `summary` text,
-  `register_date` datetime DEFAULT NULL,
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `blacklist_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `blacklist`
---
-
-LOCK TABLES `blacklist` WRITE;
-/*!40000 ALTER TABLE `blacklist` DISABLE KEYS */;
-/*!40000 ALTER TABLE `blacklist` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `category`
---
-
-DROP TABLE IF EXISTS `category`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `category` (
-  `kategory_id` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`kategory_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `category`
---
-
-LOCK TABLES `category` WRITE;
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `delivery`
---
-
-DROP TABLE IF EXISTS `delivery`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `delivery` (
-  `delivery_method_id` varchar(255) NOT NULL,
-  `shop_id` varchar(255) NOT NULL,
-  PRIMARY KEY (`delivery_method_id`,`shop_id`),
-  KEY `shop_id` (`shop_id`),
-  CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`delivery_method_id`) REFERENCES `deliverymethod` (`delivery_method_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `delivery_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `delivery`
---
-
-LOCK TABLES `delivery` WRITE;
-/*!40000 ALTER TABLE `delivery` DISABLE KEYS */;
-/*!40000 ALTER TABLE `delivery` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `deliverydestination`
---
-
-DROP TABLE IF EXISTS `deliverydestination`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `deliverydestination` (
-  `order_id` varchar(255) NOT NULL,
-  `postnumber` varchar(255) DEFAULT NULL,
-  `prefectures` varchar(255) DEFAULT NULL,
-  `district` varchar(255) DEFAULT NULL,
-  `address_building` varchar(255) DEFAULT NULL,
-  `tell` varchar(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`order_id`),
-  CONSTRAINT `deliverydestination_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `itemorder` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `deliverydestination`
---
-
-LOCK TABLES `deliverydestination` WRITE;
-/*!40000 ALTER TABLE `deliverydestination` DISABLE KEYS */;
-/*!40000 ALTER TABLE `deliverydestination` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `deliverymethod`
---
-
-DROP TABLE IF EXISTS `deliverymethod`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `deliverymethod` (
-  `delivery_method_id` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`delivery_method_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `deliverymethod`
---
-
-LOCK TABLES `deliverymethod` WRITE;
-/*!40000 ALTER TABLE `deliverymethod` DISABLE KEYS */;
-/*!40000 ALTER TABLE `deliverymethod` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `inquiry`
---
-
-DROP TABLE IF EXISTS `inquiry`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `inquiry` (
-  `QA_id` varchar(255) NOT NULL,
-  `item_id` varchar(255) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
-  `inquiry_data` text,
-  `inquiry_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`QA_id`),
-  UNIQUE KEY `item_id` (`item_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `inquiry_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `inquiry_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `inquiry`
---
-
-LOCK TABLES `inquiry` WRITE;
-/*!40000 ALTER TABLE `inquiry` DISABLE KEYS */;
-/*!40000 ALTER TABLE `inquiry` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `item`
---
-
-DROP TABLE IF EXISTS `item`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `item` (
-  `item_id` varchar(255) NOT NULL,
-  `kategory_id` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `price` int(11) DEFAULT NULL,
-  `size` int(11) DEFAULT NULL,
-  `info` text,
-  `register_date` datetime DEFAULT NULL,
-  `stock` int(11) DEFAULT NULL,
-  `is_alive` int(11) DEFAULT NULL,
-  `exterior_path` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`item_id`),
-  UNIQUE KEY `item_id` (`item_id`),
-  KEY `kategory_id` (`kategory_id`),
-  CONSTRAINT `item_ibfk_1` FOREIGN KEY (`kategory_id`) REFERENCES `category` (`kategory_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `item`
---
-
-LOCK TABLES `item` WRITE;
-/*!40000 ALTER TABLE `item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `item` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `itemimage`
---
-
-DROP TABLE IF EXISTS `itemimage`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `itemimage` (
-  `item_image_id` varchar(255) NOT NULL,
-  `item_id` varchar(255) NOT NULL,
-  `register_date` datetime DEFAULT NULL,
-  `path` varchar(255) DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
-  `rank` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_image_id`),
-  UNIQUE KEY `item_id` (`item_id`),
-  CONSTRAINT `itemimage_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `itemimage`
---
-
-LOCK TABLES `itemimage` WRITE;
-/*!40000 ALTER TABLE `itemimage` DISABLE KEYS */;
-/*!40000 ALTER TABLE `itemimage` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `itemorder`
---
-
-DROP TABLE IF EXISTS `itemorder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `itemorder` (
-  `order_id` varchar(255) NOT NULL,
-  `payment_method` varchar(255) DEFAULT NULL,
-  `delivery_method` varchar(255) DEFAULT NULL,
-  `delivery_price` int(11) DEFAULT NULL,
-  `order_date` datetime DEFAULT NULL,
-  `order_user_id` varchar(255) NOT NULL,
-  `shop_id` varchar(255) NOT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`order_id`),
-  KEY `shop_id` (`shop_id`),
-  KEY `order_user_id` (`order_user_id`),
-  CONSTRAINT `itemorder_ibfk_1` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `itemorder_ibfk_2` FOREIGN KEY (`order_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `itemorder`
---
-
-LOCK TABLES `itemorder` WRITE;
-/*!40000 ALTER TABLE `itemorder` DISABLE KEYS */;
-/*!40000 ALTER TABLE `itemorder` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `mailbox`
---
-
-DROP TABLE IF EXISTS `mailbox`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `mailbox` (
-  `mail_id` varchar(255) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
-  `from_id` varchar(255) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `body` text,
-  `send_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`mail_id`),
-  KEY `from_id` (`from_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `mailbox_ibfk_1` FOREIGN KEY (`from_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `mailbox_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mailbox`
---
-
-LOCK TABLES `mailbox` WRITE;
-/*!40000 ALTER TABLE `mailbox` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mailbox` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `map`
---
-
-DROP TABLE IF EXISTS `map`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `map` (
-  `map_id` varchar(255) NOT NULL,
-  `point_x` int(11) DEFAULT NULL,
-  `point_y` int(11) DEFAULT NULL,
-  `image_path` varchar(255) DEFAULT NULL,
-  `drawing_data` text,
-  `object_data` text,
-  `collision_data` text,
-  `shop_puttable_data` text,
-  PRIMARY KEY (`map_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `map`
---
-
-LOCK TABLES `map` WRITE;
-/*!40000 ALTER TABLE `map` DISABLE KEYS */;
-INSERT INTO `map` VALUES ('57d266ccb5ae4456905dd69be319ac20',2,3,'/public/images/map1.png','[\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,39,39,39,39,6,56,56,56,56,7,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,39,39,39,39,40,107,107,107,107,38,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,39,39,6,56,57,107,107,107,107,38,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,39,39,40,107,107,107,107,107,107,38,6,56,56,56,7,39,39,39,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,39,39,40,107,107,107,107,107,1,45,57,107,107,107,55,7,39,39,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,39,39,40,107,107,107,107,107,107,107,107,107,107,107,107,55,7,39,39,39,39,39,39,39,39,39,39,39],\r\n  [39,39,39,6,57,107,107,107,107,107,107,107,107,107,107,107,107,107,38,39,39,39,39,39,39,39,39,39,39,39],\r\n  [39,39,39,40,107,107,107,107,107,107,107,107,20,107,107,107,107,107,38,39,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,6,57,107,107,107,107,107,107,107,21,25,22,23,107,107,107,55,7,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,40,107,107,107,107,21,22,22,22,5,39,6,57,107,107,107,107,38,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,40,107,107,21,22,5,39,39,39,39,39,40,107,107,107,107,107,38,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,40,107,21,5,39,39,39,39,39,39,39,40,107,107,107,107,107,38,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,4,22,5,39,39,39,39,39,39,39,6,57,107,107,107,107,107,38,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,40,107,107,107,107,107,21,5,39,39,39,39,39,39,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,6,57,107,107,107,107,107,38,39,39,39,6,56,56,56,56,7,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,6,57,107,107,107,107,107,107,38,6,56,56,10,107,107,107,107,38,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,40,107,107,107,107,107,107,107,55,57,107,107,54,107,107,107,107,38,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,40,107,107,107,107,107,107,107,107,107,107,107,107,107,21,22,22,5,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,4,23,107,107,107,107,107,107,107,107,107,107,107,107,38,39,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,4,22,22,22,23,107,107,107,107,107,107,107,107,38,39,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,40,107,107,107,107,107,107,107,107,38,39,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,4,23,107,107,107,107,107,21,22,5,39,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,4,22,23,107,107,1,41,39,39,39,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,40,107,107,107,55,7,39,39,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,6,56,57,107,107,107,107,55,56,7,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,40,107,107,107,107,107,107,107,107,38,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,40,107,107,107,107,107,107,107,107,38,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,4,22,22,22,22,22,22,22,22,5,39,39,39,39],\r\n    [39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39]\r\n]','[\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,386,386,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,336,337,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,353,354,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,386,386,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,386,386,-1,-1,-1,386,386,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]\r\n]','[\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,1,0,0,0,0,0,1,1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,1,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,1,0,0,0,0,1,1,1,1,1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,1,0,0,1,1,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,1,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,1,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,1,1,1,1,1,1,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,1,1,0,1,1,0,0,0,1,1,1,1,1,0,0,0,0,1,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,1,0,1,1,0,1,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,1,1,1,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\r\n]',' [\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\r\n]');
-/*!40000 ALTER TABLE `map` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `orderdetails`
---
-
-DROP TABLE IF EXISTS `orderdetails`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `orderdetails` (
-  `order_id` varchar(255) NOT NULL,
-  `item_id` varchar(255) NOT NULL,
-  `count` int(11) DEFAULT NULL,
-  PRIMARY KEY (`order_id`,`item_id`),
-  KEY `item_id` (`item_id`),
-  CONSTRAINT `orderdetails_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `orderdetails_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `itemorder` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `orderdetails`
---
-
-LOCK TABLES `orderdetails` WRITE;
-/*!40000 ALTER TABLE `orderdetails` DISABLE KEYS */;
-/*!40000 ALTER TABLE `orderdetails` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `postage`
---
-
-DROP TABLE IF EXISTS `postage`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `postage` (
-  `company` varchar(255) NOT NULL,
-  `method` varchar(255) NOT NULL,
-  `size` int(11) NOT NULL,
-  `from_prefectures` varchar(255) NOT NULL,
-  `to_prefectures` varchar(255) NOT NULL,
-  `price` int(11) DEFAULT NULL,
-  PRIMARY KEY (`company`,`method`,`size`,`from_prefectures`,`to_prefectures`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `postage`
---
-
-LOCK TABLES `postage` WRITE;
-/*!40000 ALTER TABLE `postage` DISABLE KEYS */;
-/*!40000 ALTER TABLE `postage` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `shop`
---
-
-DROP TABLE IF EXISTS `shop`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shop` (
-  `shop_id` varchar(255) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `made_date` datetime DEFAULT NULL,
-  `exterior_image_path` varchar(255) DEFAULT NULL,
-  `map_id` varchar(255) NOT NULL,
-  `point_x` int(11) DEFAULT NULL,
-  `point_y` int(11) DEFAULT NULL,
-  `is_alive` int(11) DEFAULT NULL,
-  `interior_image_path` varchar(255) DEFAULT NULL,
-  `interior_draw_data` text,
-  `interior_object_data` text,
-  `interior_collision_data` text,
-  PRIMARY KEY (`shop_id`),
-  KEY `map_id` (`map_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `shop_ibfk_1` FOREIGN KEY (`map_id`) REFERENCES `map` (`map_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `shop_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `shop`
---
-
-LOCK TABLES `shop` WRITE;
-/*!40000 ALTER TABLE `shop` DISABLE KEYS */;
-INSERT INTO `shop` VALUES ('9e64ca309b2743fd83d3c7aff2f5a55f','74d86cb7ff364c0083d16c4288eaf2ae','まっさらショップ','2015-11-16 00:00:00','/public/images/map1.png','57d266ccb5ae4456905dd69be319ac20',220,250,1,'/public/images/map1.png','[\r\n    [13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13],\r\n    [13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,243,13,13],\r\n    [13,13,13,13,13,13,243,243,243,243,243,243,243,243,13,13,13,13,13,13]\r\n]','[\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,46,-1,-1,-1,-1,-1,-1,-1,-1,46,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,46,-1,-1,-1,-1,-1,-1,-1,-1,46,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,46,46,46,46,46,46,46,46,46,46,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]\r\n]','[\r\n    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],\r\n    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],\r\n    [1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1]\r\n]'),('b7c9f04bd85f45c48978ea330f261a29','74d86cb7ff364c0083d16c4288eaf2ae','テストショップ','2015-11-16 00:00:00','/public/images/map1.png','57d266ccb5ae4456905dd69be319ac20',15,15,1,'/public/images/map1.png','[\r\n    [13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13],\r\n    [13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13],\r\n    [13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13],\r\n    [13,13,13,13,175,175,175,175,175,175,175,175,175,175,175,175,175,13,13,13]\r\n]','[\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,301,-1,301,-1,301,-1,301,-1,301,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],\r\n    [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]\r\n]','[\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\r\n    [0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],\r\n    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0]\r\n]');
-/*!40000 ALTER TABLE `shop` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `shop_item`
---
-
-DROP TABLE IF EXISTS `shop_item`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shop_item` (
-  `shop_id` varchar(255) NOT NULL,
-  `item_id` varchar(255) NOT NULL,
-  `register_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`shop_id`,`item_id`),
-  UNIQUE KEY `item_id` (`item_id`),
-  CONSTRAINT `shop_item_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `shop_item_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `shop_item`
---
-
-LOCK TABLES `shop_item` WRITE;
-/*!40000 ALTER TABLE `shop_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `shop_item` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `shopitem`
---
-
-DROP TABLE IF EXISTS `shopitem`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `shopitem` (
-  `shop_id` varchar(255) NOT NULL,
-  `item_id` varchar(255) NOT NULL,
-  `register_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`shop_id`,`item_id`),
-  UNIQUE KEY `item_id` (`item_id`),
-  CONSTRAINT `shopitem_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `shopitem_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `shopitem`
---
-
-LOCK TABLES `shopitem` WRITE;
-/*!40000 ALTER TABLE `shopitem` DISABLE KEYS */;
-/*!40000 ALTER TABLE `shopitem` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `user_id` varchar(255) NOT NULL,
-  `account_name` varchar(255) DEFAULT NULL,
-  `pass` varchar(255) DEFAULT NULL,
-  `postnumber` varchar(7) DEFAULT NULL,
-  `prefectures` varchar(255) DEFAULT NULL,
-  `district` varchar(255) DEFAULT NULL,
-  `address_building` varchar(255) DEFAULT NULL,
-  `tell` varchar(15) DEFAULT NULL,
-  `category` int(11) DEFAULT NULL,
-  `is_alive` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('04174f5ca304401f8073e21abe50f88e','','','','k','','','',NULL,NULL,NULL),('11e41c55e45f41a38d544f27017b7073','','','l','','','','l',NULL,NULL,NULL),('1b1ce0d477db4f91b395c5100a29e152','','','','','','','',NULL,NULL,NULL),('56d1224965554adea666119b8b9a9fb3','h','','','','','','',NULL,NULL,NULL),('5e59b69e45304638bf4af6cef0f9c73d','','','','','','','',NULL,NULL,NULL),('62d1453fd84f4574884d9c489e9c5312','','','','','','','',NULL,NULL,NULL),('725194236eef4a26a5c08c22514f8fc1','','','','','k','','',NULL,NULL,NULL),('74d86cb7ff364c0083d16c4288eaf2ae','sasuga','11','1234567','tokyo','shinzyuku','hal','0120111222',NULL,NULL,NULL),('75b260d0feb34d64b9f2d5b059f2e553','','','８','','','','０',NULL,NULL,NULL),('88fd19b960bb4ce79b57c93d83c044cb','h','h','','','','','',NULL,NULL,NULL),('89a7e950811d4f2b9cb2a5dac0549adf','','','','','','','',NULL,NULL,NULL),('8eb793b676d14392a1c7dbffb1c9afe5','','','','','','','',NULL,NULL,NULL),('9b255a89ae0f409ca29d034d83f9f2ea','','','','','','','k',NULL,NULL,NULL),('b15a9f67c904441a907beee0a8a19bc2','','','','','','','',NULL,NULL,NULL),('b5d973bf125a45c98cede70eae00942c','','','9','','','','9',NULL,NULL,NULL),('bd0eeff145b0463180998c250d6b1413','','','1640011','','','','',NULL,NULL,NULL),('c8206e40583a4a0c936092d36e07dd18','','','','','','k','',NULL,NULL,NULL),('d0320aaed65e45bb80c4e622b5bc7473','','','k','','','','',NULL,NULL,NULL),('df7314392399499c9ae86a228ed04b8e','','','7','','','','',NULL,NULL,NULL),('f5e4cbaa8fd044b88f71469bfbc1eb82','','','','','','','h',NULL,NULL,NULL),('fa13eea7554b42529606c54d37d82276','','','ｊ','','','','ｋ',NULL,NULL,NULL);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `useravatar`
---
-
-DROP TABLE IF EXISTS `useravatar`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `useravatar` (
-  `user_avatar_id` varchar(255) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
-  `path` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`user_avatar_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `useravatar_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `useravatar`
---
-
-LOCK TABLES `useravatar` WRITE;
-/*!40000 ALTER TABLE `useravatar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `useravatar` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2015-11-16 20:56:18
+mysql  Ver 15.1 Distrib 10.0.17-MariaDB, for Win32 (AMD64)
+Copyright (c) 2000, 2015, Oracle, MariaDB Corporation Ab and others.
+
+Usage: mysql [OPTIONS] [database]
+
+Default options are read from the following files in the given order:
+C:\windows\my.ini C:\windows\my.cnf C:\my.ini C:\my.cnf C:\xampp\mysql\my.ini C:\xampp\mysql\my.cnf 
+The following groups are read: mysql client client-server client-mariadb
+The following options may be given as the first argument:
+--print-defaults        Print the program argument list and exit.
+--no-defaults           Don't read default options from any option file.
+--defaults-file=#       Only read default options from the given file #.
+--defaults-extra-file=# Read this file after the global files are read.
+
+  -?, --help          Display this help and exit.
+  -I, --help          Synonym for -?
+  --abort-source-on-error 
+                      Abort 'source filename' operations in case of errors
+  --auto-rehash       Enable automatic rehashing. One doesn't need to use
+                      'rehash' to get table and field completion, but startup
+                      and reconnecting may take a longer time. Disable with
+                      --disable-auto-rehash.
+                      (Defaults to on; use --skip-auto-rehash to disable.)
+  -A, --no-auto-rehash 
+                      No automatic rehashing. One has to use 'rehash' to get
+                      table and field completion. This gives a quicker start of
+                      mysql and disables rehashing on reconnect.
+  --auto-vertical-output 
+                      Automatically switch to vertical output mode if the
+                      result is wider than the terminal width.
+  -B, --batch         Don't use history file. Disable interactive behavior.
+                      (Enables --silent.)
+  --character-sets-dir=name 
+                      Directory for character set files.
+  --column-type-info  Display column type information.
+  -c, --comments      Preserve comments. Send comments to the server. The
+                      default is --skip-comments (discard comments), enable
+                      with --comments.
+  -C, --compress      Use compression in server/client protocol.
+  -#, --debug[=#]     This is a non-debug version. Catch this and exit.
+  --debug-check       Check memory and open file usage at exit.
+  -T, --debug-info    Print some debug info at exit.
+  -D, --database=name Database to use.
+  --default-character-set=name 
+                      Set the default character set.
+  --delimiter=name    Delimiter to be used.
+  -e, --execute=name  Execute command and quit. (Disables --force and history
+                      file.)
+  -E, --vertical      Print the output of a query (rows) vertically.
+  -f, --force         Continue even if we get an SQL error. Sets
+                      abort-source-on-error to 0
+  -G, --named-commands 
+                      Enable named commands. Named commands mean this program's
+                      internal commands; see mysql> help . When enabled, the
+                      named commands can be used from any line of the query,
+                      otherwise only from the first line, before an enter.
+                      Disable with --disable-named-commands. This option is
+                      disabled by default.
+  -i, --ignore-spaces Ignore space after function names.
+  --init-command=name SQL Command to execute when connecting to MySQL server.
+                      Will automatically be re-executed when reconnecting.
+  --local-infile      Enable/disable LOAD DATA LOCAL INFILE.
+  -b, --no-beep       Turn off beep on error.
+  -h, --host=name     Connect to host.
+  -H, --html          Produce HTML output.
+  -X, --xml           Produce XML output.
+  --line-numbers      Write line numbers for errors.
+                      (Defaults to on; use --skip-line-numbers to disable.)
+  -L, --skip-line-numbers 
+                      Don't write line number for errors.
+  -n, --unbuffered    Flush buffer after each query.
+  --column-names      Write column names in results.
+                      (Defaults to on; use --skip-column-names to disable.)
+  -N, --skip-column-names 
+                      Don't write column names in results.
+  --sigint-ignore     Ignore SIGINT (CTRL-C).
+  -o, --one-database  Ignore statements except those that occur while the
+                      default database is the one named at the command line.
+  -p, --password[=name] 
+                      Password to use when connecting to server. If password is
+                      not given it's asked from the tty.
+  -W, --pipe          Use named pipes to connect to server.
+  -P, --port=#        Port number to use for connection or 0 for default to, in
+                      order of preference, my.cnf, $MYSQL_TCP_PORT,
+                      /etc/services, built-in default (3306).
+  --progress-reports  Get progress reports for long running commands (like
+                      ALTER TABLE)
+                      (Defaults to on; use --skip-progress-reports to disable.)
+  --prompt=name       Set the mysql prompt to this value.
+  --protocol=name     The protocol to use for connection (tcp, socket, pipe,
+                      memory).
+  -q, --quick         Don't cache result, print it row by row. This may slow
+                      down the server if the output is suspended. Doesn't use
+                      history file.
+  -r, --raw           Write fields without conversion. Used with --batch.
+  --reconnect         Reconnect if the connection is lost. Disable with
+                      --disable-reconnect. This option is enabled by default.
+                      (Defaults to on; use --skip-reconnect to disable.)
+  -s, --silent        Be more silent. Print results with a tab as separator,
+                      each row on new line.
+  --shared-memory-base-name=name 
+                      Base name of shared memory.
+  -S, --socket=name   The socket file to use for connection.
+  --ssl               Enable SSL for connection (automatically enabled with
+                      other flags).
+  --ssl-ca=name       CA file in PEM format (check OpenSSL docs, implies
+                      --ssl).
+  --ssl-capath=name   CA directory (check OpenSSL docs, implies --ssl).
+  --ssl-cert=name     X509 cert in PEM format (implies --ssl).
+  --ssl-cipher=name   SSL cipher to use (implies --ssl).
+  --ssl-key=name      X509 key in PEM format (implies --ssl).
+  --ssl-crl=name      Certificate revocation list (implies --ssl).
+  --ssl-crlpath=name  Certificate revocation list path (implies --ssl).
+  --ssl-verify-server-cert 
+                      Verify server's "Common Name" in its cert against
+                      hostname used when connecting. This option is disabled by
+                      default.
+  -t, --table         Output in table format.
+  --tee=name          Append everything into outfile. See interactive help (\h)
+                      also. Does not work in batch mode. Disable with
+                      --disable-tee. This option is disabled by default.
+  -u, --user=name     User for login if not current user.
+  -U, --safe-updates  Only allow UPDATE and DELETE that uses keys.
+  -U, --i-am-a-dummy  Synonym for option --safe-updates, -U.
+  -v, --verbose       Write more. (-v -v -v gives the table output format).
+  -V, --version       Output version information and exit.
+  -w, --wait          Wait and retry if connection is down.
+  --connect-timeout=# Number of seconds before connection timeout.
+  --max-allowed-packet=# 
+                      The maximum packet length to send to or receive from
+                      server.
+  --net-buffer-length=# 
+                      The buffer size for TCP/IP and socket communication.
+  --select-limit=#    Automatic limit for SELECT when using --safe-updates.
+  --max-join-size=#   Automatic limit for rows in a join when using
+                      --safe-updates.
+  --secure-auth       Refuse client connecting to server if it uses old
+                      (pre-4.1.1) protocol.
+  --server-arg=name   Send embedded server this as a parameter.
+  --show-warnings     Show warnings after every statement.
+  --plugin-dir=name   Directory for client-side plugins.
+  --default-auth=name Default authentication client-side plugin to use.
+  --binary-mode       By default, ASCII '\0' is disallowed and '\r\n' is
+                      translated to '\n'. This switch turns off both features,
+                      and also turns off parsing of all clientcommands except
+                      \C and DELIMITER, in non-interactive mode (for input
+                      piped to mysql or loaded using the 'source' command).
+                      This is necessary when processing output from mysqlbinlog
+                      that may contain blobs.
+
+Variables (--variable-name=value)
+and boolean options {FALSE|TRUE}  Value (after reading options)
+--------------------------------- ----------------------------------------
+abort-source-on-error             FALSE
+auto-rehash                       TRUE
+auto-vertical-output              FALSE
+character-sets-dir                (No default value)
+column-type-info                  FALSE
+comments                          FALSE
+compress                          FALSE
+debug-check                       FALSE
+debug-info                        FALSE
+database                          (No default value)
+default-character-set             auto
+delimiter                         ;
+vertical                          FALSE
+force                             FALSE
+named-commands                    FALSE
+ignore-spaces                     FALSE
+init-command                      (No default value)
+local-infile                      FALSE
+no-beep                           FALSE
+host                              (No default value)
+html                              FALSE
+xml                               FALSE
+line-numbers                      TRUE
+unbuffered                        FALSE
+column-names                      TRUE
+sigint-ignore                     FALSE
+port                              0
+progress-reports                  FALSE
+prompt                            \N [\d]> 
+quick                             FALSE
+raw                               FALSE
+reconnect                         FALSE
+shared-memory-base-name           (No default value)
+socket                            (No default value)
+ssl                               FALSE
+ssl-ca                            (No default value)
+ssl-capath                        (No default value)
+ssl-cert                          (No default value)
+ssl-cipher                        (No default value)
+ssl-key                           (No default value)
+ssl-crl                           (No default value)
+ssl-crlpath                       (No default value)
+ssl-verify-server-cert            FALSE
+table                             FALSE
+user                              root
+safe-updates                      FALSE
+i-am-a-dummy                      FALSE
+connect-timeout                   0
+max-allowed-packet                16777216
+net-buffer-length                 16384
+select-limit                      1000
+max-join-size                     1000000
+secure-auth                       FALSE
+show-warnings                     FALSE
+plugin-dir                        (No default value)
+default-auth                      (No default value)
+binary-mode                       FALSE
