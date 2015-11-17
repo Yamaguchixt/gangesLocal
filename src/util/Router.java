@@ -19,7 +19,7 @@ public class Router {
     this.userRegist     =  "jsp/regist/userRegist.jsp";
     this.formMapData    =  "jsp/manage/formMapData.jsp";
     this.formShopData   =  "jsp/manage/formShopData.jsp";
-
+    this.ItemRegist     =  "jsp/regist/ItemRegist.jsp";
     this.formMapData    =  "jsp/manage/formMapData.jsp";
     this.formShopData   =  "jsp/manage/formShopData.jsp";
 
@@ -34,6 +34,7 @@ public class Router {
 
   private String formMapData;
   private String formShopData;
+  private String ItemRegist;
 
   private String fault;
 
@@ -42,7 +43,7 @@ public class Router {
     if ( jsp.equals( "main.jsp" ))          { return this.main;       }
     if ( jsp.equals( "userLogin.jsp" ))     { return this.userLogin;  }
     if ( jsp.equals( "userRegist.jsp" ))    { return this.userRegist; }
-
+    if ( jsp.equals("ItemRegist.jsp"))      {return this.ItemRegist;}
     if ( jsp.equals("formMapData.jsp"))     { return this.formMapData;}
     if ( jsp.equals("formShopData.jsp"))    { return this.formShopData;}
 
