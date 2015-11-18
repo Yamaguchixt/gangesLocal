@@ -10,7 +10,9 @@ var global = {
 
 		chara: {},
 		label: new Label(),
-		mapChangeManager: new Sprite(1,1),
+		mapChangeManager  : new Sprite(1,1),
+		shopChangeManager : new Sprite(1,1),
+		previous :{},
 
 		setScene: function(x,y,scene){
 			if(!existy(this.scene[x+":"+y])){this.scene[x+":"+y] = {}; }
@@ -25,6 +27,16 @@ var global = {
 		},
 		getShopList: function(x,y){
 			return global.scene[x+":"+y].shopList;
+		},
+		getShopObject : function(x,y,shop_id) {
+			var list = this.scene[x+":"+y].shopList,
+				i;
+			for(i=0;i < list.length; i++){
+				if ( shop_id === list[i].shop_id) {
+					return list[i];
+				}
+			}
+			return 0;
 		}
 };
 

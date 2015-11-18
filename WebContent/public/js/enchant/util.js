@@ -73,7 +73,7 @@ var createMap = function(x,y){
 };
 
 var createShops = function(x,y,map){//createMapから呼ぶこと
-	global.scene[x+":"+y].scene.addChild(map);
+global.scene[x+":"+y].scene.addChild(map);
 	global.scene[x+":"+y].scene.addChild(global.chara);
 	global.scene[x+":"+y].scene.addChild(global.label);
 	global.scene[x+":"+y].scene.addChild(global.mapChangeManager);
@@ -87,11 +87,15 @@ var createShops = function(x,y,map){//createMapから呼ぶこと
 		shop.y = array[i].point_y;
 		shop.shop_id = array[i].shop_id;
 		shop.user_id = array[i].user_id;
+		shop.interior_image_path = array[i].interior_image_path;
 
 		shop.on('enterframe',function(){
 			if(global.chara.intersect(this)){
-				log("intersect:     "+ this.Id);//なぜかここをshopにするとひとつのshopにしかイベントが設定されない。上書きされてしまう。
-				this.removeEventListener('enterframe',arguments.callee);
+				goInShop(x,y,this.shop_id);
+				global.chara.next = {};
+				global.chara.next.x = this.x + 50;
+				global.chara.next.y = this.y;
+				//this.removeEventListener('enterframe',arguments.callee); //このイベントりむると2回目に入れない
 			}
 		});
 		global.scene[x+":"+y].scene.addChild(shop);
@@ -120,14 +124,60 @@ var changeMap = function(x,y){
 	global.mapChangeManager.addEventListener('enterframe', function(){
 		if(global.chara.x > WIDTH || global.chara.x < -10 || global.chara.y > HEIGHT || global.chara.y < 0){//画面端に触れたら
 			changeMap(global.currentMap.x,global.currentMap.y);
-			this.removeEventListener('enterframe',arguments.callee);
+			//this.removeEventListener('enterframe',arguments.callee); 消しちゃいけないと思われる。
 		}
 	 });
-	global.scene[global.currentMap.x+":"+global.currentMap.y].scene.on('touchstart',function(e){//画面タッチしたらそこに瞬時に移動させる
-		global.chara.x = e.x;
-		global.chara.y = e.y;
-	 });
 
+	setTouchMoveEvent(global.scene[global.currentMap.x+":"+global.currentMap.y].scene);
 
 	game.pushScene(global.scene[global.currentMap.x+":"+global.currentMap.y].scene);
 };
+
+var goInShop = function( currentMap_x, currentMap_y, shop_id){
+	//現在地保存しておく
+	global.previous.x = global.chara.x;
+	global.previous.y = global.chara.y;
+	var scene 				= new Scene();
+	var shopInterior 	= createShopInterior(currentMap_x, currentMap_y, shop_id);
+
+	global.shopChangeManager.on('enterframe',function(){
+		if ( global.chara.y > config.game_height){
+			game.popScene();
+			var nextScene = global.scene[currentMap_x+":"+currentMap_y].scene;
+			nextScene.addChild(global.chara);
+			nextScene.addChild(global.label);
+			global.chara.x = global.chara.next.x;
+			global.chara.y = global.chara.next.y;
+		}
+	});
+
+	scene.addChild(shopInterior);
+	scene.addChild(global.chara);
+	scene.addChild(global.label);
+	scene.addChild(global.shopChangeManager);
+	setTouchMoveEvent(scene);
+
+	global.chara.x = 50;
+	global.chara.y = config.game_height - 30;
+	game.pushScene(scene);
+};
+
+var createShopInterior = function(currentMap_x, currentMap_y, shop_id){
+	var shop  					= global.getShopObject(currentMap_x, currentMap_y, shop_id);
+	var interiorMap		  = new ExMap(16,16);
+	var tmp = '/ganges'+shop.interior_image_path;
+	interiorMap.image 	= game.assets['/ganges' + shop.interior_image_path];
+	interiorMap.loadData(shop.interior_draw_data, shop.interior_object_data);
+	interiorMap.collisionData = shop.interior_collision_data;
+
+	return interiorMap
+}
+
+var setTouchMoveEvent = function(scene){
+	scene.on('touchstart',function(e){
+		global.chara.x = e.x;
+		global.chara.y = e.y;
+	});
+}
+
+
