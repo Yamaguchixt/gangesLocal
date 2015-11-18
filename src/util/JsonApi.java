@@ -26,9 +26,9 @@ public class JsonApi {
 
 	public static <T extends Jsonable> JSONArray ListToJSON(List<T> list){
 		JSONArray array = new JSONArray();
-		Iterator<T> ite = list.iterator();//Itemハードコードなんとかしたい
-		while(ite.hasNext()){
-			array.add(ite.next().toJson());//T型はJsonableなのでtoJsonよべる
+		Iterator<T> it = list.iterator();
+		while(it.hasNext()){
+			array.add(it.next().toJson());//T型はJsonableなのでtoJsonよべる
 		}
 		return array;
 	}

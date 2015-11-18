@@ -3,7 +3,6 @@ package enchant;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -12,10 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Item;
-
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import util.JsonApi;
 import DAO.ItemsDAO;
 import DAO.MapDAO;
 
@@ -47,10 +46,9 @@ public class EnchantApi extends HttpServlet {
 		}
 
 		if(action.equalsIgnoreCase("getItems")){
-			String shopId = request.getParameter("shopId");//null checkしてない
-			ItemsDAO dao = new ItemsDAO();
-			ArrayList<Item> list = dao.find(shopId);
-			//ここで一発でJSONにしたい
+			String shopId = Optional.ofNullable(request.getParameter("shopId")).orElse("wrong_id");
+			JSONArray jarray = JsonApi.ListToJSON(new ItemsDAO().find(shopId));
+			jarray.writeJSONString(out);
 		}
 
 		if(action.equals("none")){ System.out.println("EnchantApi parameter action is none");}
