@@ -13,7 +13,8 @@ git clone $remote
 mv ./gangesLocal/src ./src
 mv ./gangesLocal/WebContent ./WebContent
 mv ./gangesLocal/.gitignore ./.gitignore
-mv ./gangesLocal/sql ./sql
+mv ./gangesLocal/staticRoute.txt ./staticRoute.txt
+mv ./gangesLocal/etc ./etc
 
 rm -rf ./gangesLocal
 
