@@ -50,7 +50,8 @@ public class Config {
 
     }
   }
-  public static Config getInstance() {
+  public static Config getInstance
+  () {
     return config;
   }
 

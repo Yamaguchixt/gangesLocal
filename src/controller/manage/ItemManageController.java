@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.ItemsDAO;
 import model.Item;
 import util.Router;
 import util.Util;
-import DAO.ItemsDAO;
 
 /**
  * Servlet implementation class ItemManageController
@@ -41,20 +41,22 @@ public class ItemManageController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	  String item_id         = Util.getUUID();
-	  String category_id     = request.getParameter("category_id");
-	  String name            = request.getParameter("name");
-	  String strprice        = request.getParameter("price");
-	  String strsize         = request.getParameter("size");
-	  String info            = request.getParameter("info");
-	  String strstock        = request.getParameter("stock");
-	  String exterior_path   = request.getParameter("ex_image");
-	  int is_alive           = 1;
-	  int price              = 0;
-	  int size               = 0;
-	  int stock              = 0;
-	  String nextJsp         = "";
-	  boolean isError       = false;
+	//String item_image_id       = Util.getUUID();
+	  String item_id             = Util.getUUID();
+	  String category_id         = request.getParameter("category_id");
+	  String name                = request.getParameter("name");
+	  String strprice            = request.getParameter("price");
+	  String strsize             = request.getParameter("size");
+	  String info                = request.getParameter("info");
+	  String strstock            = request.getParameter("stock");
+	  String exterior_image_path = request.getParameter("exterior_image_path");
+	  String view_image_path     = request.getParameter("view_image_path");
+	  int is_alive               = 1;
+	  int price                  = 0;
+	  int size                   = 0;
+	  int stock                  = 0;
+	  String nextJsp             = "";
+	  boolean isError            = false;
 
 	    //////////////////////////////////
 	    //////////////////////////////////
@@ -64,8 +66,6 @@ public class ItemManageController extends HttpServlet {
 	    /////////////////////////////////////
 	    //////////////////////////////////////
 	    //////////////////////////////////
-
-
 	  String date = Util.getCurrentDateString();
 	  System.out.println(date);
 
@@ -81,7 +81,7 @@ public class ItemManageController extends HttpServlet {
 	    isError = true;
 	  }
 
-	  Item item      = new Item(item_id,category_id,name,price,size,info,stock,exterior_path,is_alive,date);
+	  Item item      = new Item(item_id,category_id,name,price,size,info,stock,exterior_image_path,view_image_path,is_alive,date);
 	  Item shop_item = new Item(shop_id,item_id,date);
 	  ItemsDAO dao   = new ItemsDAO();
 
