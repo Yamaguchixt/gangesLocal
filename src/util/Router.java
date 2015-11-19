@@ -22,7 +22,7 @@ public class Router {
     this.ItemRegist     =  "jsp/regist/ItemRegist.jsp";
     this.formMapData    =  "jsp/manage/formMapData.jsp";
     this.formShopData   =  "jsp/manage/formShopData.jsp";
-    this.toitemregist  =   "jsp/test/toitemregist.jsp";
+    this.toitemregist   =   "jsp/test/toitemregist.jsp";
 
 
     this.fault     = this.serverURL + " #### "; //遷移失敗を表すURL
