@@ -16,7 +16,9 @@
 サイズ<input type ="text" name="size"><br>
 商品説明<input type="text" name="info"><br>
 在庫<input type="text" name="stock"><br>
-外観画像パス<input type="text" name="ex_image"><br>
+外観画像パス<input type="text" name="exterior__image_path"><br>
+商品画像パス<input type="text" name="view_imege_path"><br>
+
 <input type="submit" name="送信"value="登録"><br>
 
 </form>
