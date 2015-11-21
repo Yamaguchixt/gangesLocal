@@ -1,0 +1,54 @@
+﻿@charset"utf-8";
+
+	p {
+		line-height : 1.5;
+	}
+
+
+	* {
+		margin : 0;
+	}
+
+	#top {
+		margin : 10px 5px 0 10px;
+	}
+
+	body{
+			background-image : url("../images/background-image.gif");
+			background-repeat: repeat;
+	}
+
+	#wrapper{
+		width:80%;
+		height : 800px;
+		margin: 0 auto 5%;
+		background-color : #45FFFF;
+	}
+
+
+	#header{
+		width:99%;
+		height : 8%;
+		background-color : #dc7cb0;
+		margin : 0 40% 0 0;
+		padding : 1% 0 1% 1%;
+	}
+
+
+	#logo{
+		width:20%;
+		height : 100%;
+		background-color : #45c854;
+	}
+
+	#main{
+		width:98%;
+		height : 60%;
+		background-color : #45c854;
+		margin : 3% 1% 0 1%;
+	}
+
+	#footer {
+		margin : 0 35% 0 35%;
+	}
+
