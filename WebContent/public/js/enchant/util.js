@@ -93,7 +93,7 @@ global.scene[x+":"+y].scene.addChild(map);
 			if(global.chara.intersect(this)){
 				goInShop(x,y,this.shop_id);
 				global.chara.next = {};
-				global.chara.next.x = this.x + 50;
+				global.chara.next.x = this.x + 50; //shopからでるときにcharaが出現する位置。細かく制御するか検討。店にもたせるかx,yみてアルゴリズムで判断するか。
 				global.chara.next.y = this.y;
 				//this.removeEventListener('enterframe',arguments.callee); //このイベントりむると2回目に入れない
 			}
@@ -150,16 +150,38 @@ var goInShop = function( currentMap_x, currentMap_y, shop_id){
 			global.chara.y = global.chara.next.y;
 		}
 	});
+	//ここでitemオブジェクト取得する。
+	/*
+	 	$.getJSON(path,function(json){
+		map.x = json.point_x;
+		map.y = json.point_y;
+		map.image = game.assets['/ganges' +json.image_path];// /public/images/map1.png が返ってくる
+		map.loadData(json.drawing_data,json.object_data);
+		map.collisionData = json.collision_data;
+		global.setShopList(x,y,JSON.parse(JSON.stringify(json.shopList)));
+		createShops(x,y,map);
+	});
+	 */
+	var path = global.server.url + 'EnchantApi?action=getItems&shopId='+shop_id;
+	$.getJSON(path,function(json){
 
-	scene.addChild(shopInterior);
-	scene.addChild(global.chara);
-	scene.addChild(global.label);
-	scene.addChild(global.shopChangeManager);
-	setTouchMoveEvent(scene);
 
-	global.chara.x = 50;
-	global.chara.y = config.game_height - 30;
-	game.pushScene(scene);
+
+
+		scene.addChild(shopInterior);
+		scene.addChild(global.chara);
+		scene.addChild(global.label);
+		scene.addChild(global.shopChangeManager);
+		setTouchMoveEvent(scene);
+
+		global.chara.x = 50;
+		global.chara.y = config.game_height - 30;
+		game.pushScene(scene);
+
+	})
+
+
+
 };
 
 var createShopInterior = function(currentMap_x, currentMap_y, shop_id){
