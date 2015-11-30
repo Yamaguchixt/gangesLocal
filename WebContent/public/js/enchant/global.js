@@ -4,7 +4,7 @@ var global = {
 		scene: {},
 		currentMap:{},
 		server:{
-			url  : config.serverURL
+			url  : config.serverURL //  http://localhost:8080/ganges/
 
 		},
 
@@ -13,6 +13,7 @@ var global = {
 		mapChangeManager  : new Sprite(1,1),
 		shopChangeManager : new Sprite(1,1),
 		previous :{},
+		itemList : {},
 
 		setScene: function(x,y,scene){
 			if(!existy(this.scene[x+":"+y])){this.scene[x+":"+y] = {}; }
@@ -37,6 +38,19 @@ var global = {
 				}
 			}
 			return 0;
+		},
+
+		setItemList: function(shop_id,item_list) {
+			if(!existy(this.itemList[shop_id])) { this.itemList[shop_id] = {};}
+			this.itemList[shop_id] = item_list;
+		},
+
+		getItem: function(shop_id,item_id) {
+			for (var i = 0;i < this.itemList[shop_id].length; i++) {
+				if (this.itemList[shop_id][i].item_id == item_id) {
+					return this.itemList[shop_id][i];
+				}
+			}
 		}
 };
 

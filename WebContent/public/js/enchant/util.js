@@ -150,34 +150,42 @@ var goInShop = function( currentMap_x, currentMap_y, shop_id){
 			global.chara.y = global.chara.next.y;
 		}
 	});
-	//ここでitemオブジェクト取得する。
-	/*
-	 	$.getJSON(path,function(json){
-		map.x = json.point_x;
-		map.y = json.point_y;
-		map.image = game.assets['/ganges' +json.image_path];// /public/images/map1.png が返ってくる
-		map.loadData(json.drawing_data,json.object_data);
-		map.collisionData = json.collision_data;
-		global.setShopList(x,y,JSON.parse(JSON.stringify(json.shopList)));
-		createShops(x,y,map);
-	});
-	 */
+	//item追加する前にシーンに追加しておく
+	scene.addChild(shopInterior);
+	scene.addChild(global.chara);
+	scene.addChild(global.label);
+	scene.addChild(global.shopChangeManager);
+	setTouchMoveEvent(scene);
+
+	global.chara.x = 50;
+	global.chara.y = config.game_height - 30;
+
 	var path = global.server.url + 'EnchantApi?action=getItems&shopId='+shop_id;
 	$.getJSON(path,function(json){
+	//jsonにitem配列があるので店に描画する
+		var item;
+		var	x = 80;
+		var	y = 180;
 
+		global.setItemList(shop_id,json);
+		for(item in json) {
+			var _item = new Sprite(16,16);
+			_item.image = game.assets['/ganges'+json[item].exterior_path];
+			_item.frame = 28; //frame情報がないのできめうち。
+			_item.x     = x;
+			_item.y     = y;
+			_item.item_id    = json[item].item_id;
+			_item.shop_id = json[item].shop_id;
+			setItemEvent(_item);
 
+			scene.addChild(_item);
 
+			var _nextPoint = nextPoint(x,y);
+			x = _nextPoint.x;
+			y = _nextPoint.y;
+		}
 
-		scene.addChild(shopInterior);
-		scene.addChild(global.chara);
-		scene.addChild(global.label);
-		scene.addChild(global.shopChangeManager);
-		setTouchMoveEvent(scene);
-
-		global.chara.x = 50;
-		global.chara.y = config.game_height - 30;
 		game.pushScene(scene);
-
 	})
 
 
@@ -193,13 +201,44 @@ var createShopInterior = function(currentMap_x, currentMap_y, shop_id){
 	interiorMap.collisionData = shop.interior_collision_data;
 
 	return interiorMap
-}
+};
 
 var setTouchMoveEvent = function(scene){
 	scene.on('touchstart',function(e){
 		global.chara.x = e.x;
 		global.chara.y = e.y;
 	});
-}
+};
 
+//itemをお店のどこにおくかを決定する関数
+var nextPoint = function(x,y) {
+	if ( y + 20 >  (config.game_height - 50) ) {
+		y = 20;
+		x = x + 20;
+	}
+	else { y = y + 20;}
+	return {x : x,
+					y : y};
+};
+
+var setItemEvent = function(_item) {
+	//_itemはSpriteで　itemはオブジェクト
+	var item = global.getItem(_item.shop_id,_item.item_id);
+	_item.on('enterframe',function(){
+			if (global.chara.intersect(_item)){
+				var html = 	'<div class="item" data-item_id="' + item.item_id + '">'
+									+ 		'<div class="item_name">' +item.name+ '</div>'
+									+			'<div class="item_price">' +item.price+ '</div>'
+									+     '<div class="item_image"><img src="/ganges/' + item.view_image_path + '"</div>'
+									+			'<form action="'+global.server.url+'SetExpress" METHOD="GET" target="_blank">'
+									+			'<input type="hidden" name="paymentAmount" value="' +item.price+ '">'
+									+			'<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0" align="top"/>'
+									+			'</form>'
+									+ '</div>';
+				$('#item_target').append(html);
+				var tmp = arguments.callee;
+				_item.removeEventListener('enterframe',arguments.callee);
+			}
+	});
+}
 

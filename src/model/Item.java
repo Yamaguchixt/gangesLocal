@@ -47,9 +47,16 @@ public class Item implements Jsonable{
 		JSONObject obj = new JSONObject();
 		obj.put("shop_id",this.shop_id);
 		obj.put("item_id", this.item_id);
+		obj.put("category_id",this.category_id);
 		obj.put("name", this.name);
+		obj.put("size", new Integer(this.size));
+		obj.put("info",this.info);
+		obj.put("register_date", this.date);
 		obj.put("exterior_path", this.exterior_image_path);
+		obj.put("view_image_path", this.view_image_path);
+		obj.put("stock", new Integer(this.stock));
 		obj.put("price", new Integer(this.price));
+
 		return obj;
 	}
 
