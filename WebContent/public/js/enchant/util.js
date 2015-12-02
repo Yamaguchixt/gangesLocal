@@ -212,11 +212,11 @@ var setTouchMoveEvent = function(scene){
 
 //itemをお店のどこにおくかを決定する関数
 var nextPoint = function(x,y) {
-	if ( y + 20 >  (config.game_height - 50) ) {
-		y = 20;
-		x = x + 20;
+	if ( y + 40 >  (config.game_height - 50) ) {
+		y = 180;
+		x = x + 40;
 	}
-	else { y = y + 20;}
+	else { y = y + 40;}
 	return {x : x,
 					y : y};
 };
@@ -226,18 +226,43 @@ var setItemEvent = function(_item) {
 	var item = global.getItem(_item.shop_id,_item.item_id);
 	_item.on('enterframe',function(){
 			if (global.chara.intersect(_item)){
-				var html = 	'<div class="item" data-item_id="' + item.item_id + '">'
-									+ 		'<div class="item_name">' +item.name+ '</div>'
-									+			'<div class="item_price">' +item.price+ '</div>'
-									+     '<div class="item_image"><img src="/ganges/' + item.view_image_path + '"</div>'
-									+			'<form action="'+global.server.url+'SetExpress" METHOD="GET" target="_blank">'
-									+			'<input type="hidden" name="paymentAmount" value="' +item.price+ '">'
-									+			'<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0" align="top"/>'
-									+			'</form>'
-									+ '</div>';
-				$('#item_target').append(html);
-				var tmp = arguments.callee;
-				_item.removeEventListener('enterframe',arguments.callee);
+				if (global.current[item] != item.item_id) {
+					global.current[item] = item.item_id;
+					var style = ' style="max-width:50%;height:auto; "'
+					var html = 	'<div class="item" data-item_id="' + item.item_id + '">'
+											+	'<div class="item_name">' +item.name+ '</div>'
+											+	'<div class="item_price">' +item.price+ '</div>'
+											+ '<div class="item_image"><img' + style+ ' src="/ganges' + item.view_image_path + '"></div>'
+											/*
++	'<form action="'+global.server.url+'SetExpress" METHOD="GET" target="_blank">'
+											+	'<input type="hidden" name="paymentAmount" value="' +item.price+ '">'
+											+	'<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0" align="top"/>'
+											+	'</form>'
+											*/
+											//buttonがつぶれる。とりあえずクリックはできる。
+											+ '<form>'
+											+ 	'<input type="button" class="into_cart_button" value="カートに入れる" >'
+											+ '</form>'
+										+ '</div>';
+					$('#item_target').empty().append(html);
+					$('.into_cart_button').on('click',{item:item},function(event){ //event.data.name でアクセスできる。
+						//cart状態の更新
+						global.shoppingCart.item_num += 1;
+						global.shoppingCart.sum      += event.data.item.price;
+						var _item  = event.data.item;
+						var _html = '<div>' + _item.name +' : '+ _item.price + '</div>';
+						var sum_html = '<div id="cart_sum">合計金額 : '+ global.shoppingCart.sum + '</div>';
+						var paypal_html =
+								'<form id="paypal_button" action="'+global.server.url+'SetExpress" METHOD="GET" target="_blank">'
+							+	'<input type="hidden" name="paymentAmount" value="' +global.shoppingCart.sum+ '">'
+							+	'<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0" align="top"/>'
+							+	'</form>'
+						$('#cart_sum').remove();
+						$('#paypal_button').remove();
+						$('#shopping_cart').append(_html).append(sum_html).append(paypal_html);
+					});
+				}
+				//_item.removeEventListener('enterframe',arguments.callee); 消さないでifで制御する。
 			}
 	});
 }

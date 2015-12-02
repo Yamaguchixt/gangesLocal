@@ -14,6 +14,8 @@ var global = {
 		shopChangeManager : new Sprite(1,1),
 		previous :{},
 		itemList : {},
+		current : {item : ""}, //shop内で今どのitemをふんでいるか
+		shoppingCart : {item_num : 0,sum : 0},  // shoppingcartの状態を保持。いくつはいってるか、合計いくつかをカート更新時に反映していく
 
 		setScene: function(x,y,scene){
 			if(!existy(this.scene[x+":"+y])){this.scene[x+":"+y] = {}; }

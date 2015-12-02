@@ -24,6 +24,7 @@
     </script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/global.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/purchase.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/shoppingCart.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/util.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/main.js"></script>
     <script src=""></script>
@@ -35,7 +36,8 @@
     	<div id="enchant-stage"></div>
   </div>
 
-  <div id="item_target"></div>
+  <div style="border:3px solid #ddd;" id="shopping_cart"></div><!--itemのカートにいれるボタンを押したときに追加されるカートを表示する領域  -->
+  <div id="item_target"></div><!-- shop内のitemを踏んだときにitemの詳細を表示する領域 -->
 
 
 	<script>
