@@ -233,13 +233,7 @@ var setItemEvent = function(_item) {
 											+	'<div class="item_name">' +item.name+ '</div>'
 											+	'<div class="item_price">' +item.price+ '</div>'
 											+ '<div class="item_image"><img' + style+ ' src="/ganges' + item.view_image_path + '"></div>'
-											/*
-+	'<form action="'+global.server.url+'SetExpress" METHOD="GET" target="_blank">'
-											+	'<input type="hidden" name="paymentAmount" value="' +item.price+ '">'
-											+	'<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0" align="top"/>'
-											+	'</form>'
-											*/
-											//buttonがつぶれる。とりあえずクリックはできる。
+
 											+ '<form>'
 											+ 	'<input type="button" class="into_cart_button" value="カートに入れる" >'
 											+ '</form>'
@@ -250,7 +244,11 @@ var setItemEvent = function(_item) {
 						global.shoppingCart.item_num += 1;
 						global.shoppingCart.sum      += event.data.item.price;
 						var _item  = event.data.item;
-						var _html = '<div>' + _item.name +' : '+ _item.price + '</div>';
+						var _html = '<div data-cart-item="'+_item.item_id +'">'
+												+	'<span>'+ _item.name +' : '+ _item.price + '</span>'
+												+ '<form><input type="button" class="outof_cart_button" value="カートから削除"></form>'
+												+ '</div>'
+												;
 						var sum_html = '<div id="cart_sum">合計金額 : '+ global.shoppingCart.sum + '</div>';
 						var paypal_html =
 								'<form id="paypal_button" action="'+global.server.url+'SetExpress" METHOD="GET" target="_blank">'
@@ -260,9 +258,26 @@ var setItemEvent = function(_item) {
 						$('#cart_sum').remove();
 						$('#paypal_button').remove();
 						$('#shopping_cart').append(_html).append(sum_html).append(paypal_html);
+
+						//カートから削除ボタンのイベント設定
+						$('.outof_cart_button').on('click',{item:_item},function(event) {
+							global.shoppingCart.item_num -= 1;
+							global.shoppingCart.sum -= event.data.item.price;
+							console.log("remove item :" + event.data.item.item_id);
+							$('div[data-cart-item='+event.data.item.item_id+']').remove();
+							var sum_html = '<div id="cart_sum">合計金額 : '+ global.shoppingCart.sum + '</div>';
+							var paypal_html =
+									'<form id="paypal_button" action="'+global.server.url+'SetExpress" METHOD="GET" target="_blank">'
+								+	'<input type="hidden" name="paymentAmount" value="' +global.shoppingCart.sum+ '">'
+								+	'<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" border="0" align="top"/>'
+								+	'</form>'
+							$('#cart_sum').remove();
+							$('#paypal_button').remove();
+							$('#shopping_cart').append(sum_html).append(paypal_html);
+
+						})
 					});
 				}
-				//_item.removeEventListener('enterframe',arguments.callee); 消さないでifで制御する。
 			}
 	});
 }
