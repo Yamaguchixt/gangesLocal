@@ -49,6 +49,7 @@ public class WsChatServlet extends WebSocketServlet {
 
 	  @Override
 	  public void onTextMessage(CharBuffer cb) throws IOException {
+	    System.out.println(cb);
 	    for(MyMessageInbound mmib: mmlist) {
 	      CharBuffer buffer = CharBuffer.wrap(cb);
 	      mmib.myoutbound.writeTextMessage(buffer);

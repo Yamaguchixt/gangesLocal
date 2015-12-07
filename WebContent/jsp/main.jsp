@@ -24,14 +24,19 @@
     </script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/global.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/purchase.js"></script>
-    <script src="<%=request.getContextPath() %>/public/js/shoppingCart.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/util.js"></script>
     <script src="<%=request.getContextPath() %>/public/js/enchant/main.js"></script>
+    <script src="<%=request.getContextPath() %>/public/js/chat.js"></script>
+
     <script src=""></script>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/public/css/main.css">
     <title>ぷれふり</title>
 </head>
 <body>
+  <div id="chat">
+    <div id="chat_log"></div>
+    <div id="chat_message"></div>
+  </div>
 	<div id="game_window">
     	<div id="enchant-stage"></div>
   </div>
