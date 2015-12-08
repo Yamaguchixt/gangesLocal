@@ -25,7 +25,8 @@ var chat_cache = {
 		},
 		getOtherAvator : function(id) {
 			return this.other_avators[id];
-		}
+		},
+		sprite : {}
 
 };
 var getUUID = function(){
@@ -57,9 +58,10 @@ var initiateWebSocket = function(){
 		processChat();
 		console.log("onopen");
 	};
-	chat_cache.websocket.onmessage = messageHandle;
+	chat_cache.websocket.onmessage = messageHandler;
+	chat_cache.websocket.onclose   = closingHandler;
 };
-var messageHandle = function(message) {
+var messageHandler = function(message) {
 	var obj = JSON.parse(message.data);
 	if (obj.type == "avator_move") {
 		var avator = obj.avator;
@@ -68,12 +70,21 @@ var messageHandle = function(message) {
 			if ( chat_cache.isNewAvator(avator.id)) {
 				console.log("first time avator" + avator.id);
 				//描画処理
+				var _sprite = new Sprite(32,32);
+				_sprite.image = game.assets["/ganges/public/images/chara2.png"];
+				_sprite.frame = 1;
+				_sprite.x = avator.x;
+				_sprite.y = avator.y;
+				global.getScene(global.currentMap.x,global.currentMap.y).addChild(_sprite);
+				_sprite.tl.moveTo(200,200,120);
 				//キャッシュ登録処理
-				chat_cache.setOtherAvator(avator.id,{id : avator.id});
+				chat_cache.setOtherAvator(avator.id,_sprite);
 
 			}
 			else { // avatorがすでに登録(描画済み)だったら
 				console.log("already know " + avator.id);
+				var _sprite = chat_cache.getOtherAvator(avator.id);
+				_sprite.tl.moveTo(avator.x,avator.y,30);
 			}
 		}
 		else { //avatorが自分だったら　又は違うマップだったら
@@ -118,7 +129,11 @@ var createAvatorMovementObject = function() {
 	}
 	return chat_cache.movement_obj;
 };
-
+var closingHandler = function() {
+	//close処理
+	//close情報オブジェクトを流す?
+	console.log("closing");
+};
 
 var chat = function(){
 	initiateWebSocket();
